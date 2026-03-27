@@ -50,21 +50,22 @@ export const isPlanExpired = (planDetails) => {
 };
 
 export const isPremiumUser = (userPlanDetails) => {
-  if (!userPlanDetails) {
-    return false;
-  }
+  return true;
+  // if (!userPlanDetails) {
+  //   return false;
+  // }
 
-  // Handle Case - Status node is not there in referral type
-  if (userPlanDetails.type === "referral") {
-    return isPremiumPlan(userPlanDetails.planId) && !isPlanExpired(userPlanDetails);
-  }
+  // // Handle Case - Status node is not there in referral type
+  // if (userPlanDetails.type === "referral") {
+  //   return isPremiumPlan(userPlanDetails.planId) && !isPlanExpired(userPlanDetails);
+  // }
 
-  // For all other types eg Unlock, Team, Individual, Paypal
-  return (
-    ["active", "trialing", "past_due"].includes(userPlanDetails.status) &&
-    isPremiumPlan(userPlanDetails.planId) &&
-    !isPlanExpired(userPlanDetails)
-  );
+  // // For all other types eg Unlock, Team, Individual, Paypal
+  // return (
+  //   ["active", "trialing", "past_due"].includes(userPlanDetails.status) &&
+  //   isPremiumPlan(userPlanDetails.planId) &&
+  //   !isPlanExpired(userPlanDetails)
+  // );
 };
 
 export const getPlanName = (planDetails) => {

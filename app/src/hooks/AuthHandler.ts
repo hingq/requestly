@@ -269,7 +269,7 @@ const AuthHandler: React.FC<{}> = () => {
         dispatch(
           globalActions.updateUserInfo({
             loggedIn: false,
-            details: planDetails ? { planDetails, isPremium: isPremiumUser(planDetails) } : null,
+            details: { isPremium: true, ...(planDetails ? { planDetails } : {}) },
           })
         );
         dispatch(
