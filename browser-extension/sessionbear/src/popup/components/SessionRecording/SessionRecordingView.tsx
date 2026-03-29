@@ -110,27 +110,27 @@ const SessionRecordingView: React.FC = () => {
       <div className="watch-replay-btn-tooltip-content">
         <InfoIcon />
         <div>
-          <span>Auto recording is disabled for this page. Please Enable it in SessionBook settings.</span>{" "}
-          <button onClick={handleConfigureBtnClick}>Enable now.</button>
+          <span>当前页面未开启自动录制，请前往 SessionBook 设置中启用。</span>{" "}
+          <button onClick={handleConfigureBtnClick}>立即启用</button>
         </div>
       </div>
     ) : (
-      <>Instantly play last 5 min auto recorded session for this tab.</>
+      <>立即回放此标签页最近 5 分钟的自动录制内容。</>
     );
 
   return (
     <div className="session-view-content">
       <Row align="middle" justify="space-between">
-        <div className="title">Record session for sharing & debugging</div>
+        <div className="title">录制会话，便于分享与排查问题</div>
         <div className="configure-btn" onClick={handleConfigureBtnClick}>
-          <SettingIcon /> Configure
+          <SettingIcon /> 配置
         </div>
       </Row>
       <Row wrap={false} align="middle" className="action-btns">
         <Tooltip
           placement="top"
           color="#000000"
-          title="Capture mouse movement, console, network and more."
+          title="采集鼠标移动、控制台、网络请求等信息。"
           overlayClassName="action-btn-tooltip"
         >
           <PrimaryActionButton
@@ -139,7 +139,7 @@ const SessionRecordingView: React.FC = () => {
             icon={isRecordingInManualMode ? <StopRecordingIcon /> : <PlayRecordingIcon />}
             onClick={handleManualRecordingButtonClick}
           >
-            {isRecordingInManualMode ? "Stop and watch" : " Record this tab"}
+            {isRecordingInManualMode ? "停止并查看" : "录制当前标签页"}
           </PrimaryActionButton>
         </Tooltip>
 
@@ -156,14 +156,14 @@ const SessionRecordingView: React.FC = () => {
               disabled={isRecordingInManualMode || !isRecordingSession}
               onClick={handleViewLastFiveMinReplay}
             >
-              Watch last 5 min replay
+              查看最近 5 分钟回放
             </PrimaryActionButton>
           </span>
         </Tooltip>
       </Row>
       <div className="session-replay-security-msg">
         <ShieldIcon />
-        <div className="msg">Sessions are recorded locally in your browser.</div>
+        <div className="msg">录制内容仅保存在你的本地浏览器中。</div>
       </div>
     </div>
   );

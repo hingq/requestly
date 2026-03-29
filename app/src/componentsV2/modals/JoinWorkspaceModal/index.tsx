@@ -19,6 +19,7 @@ import { trackCreateNewTeamClicked } from "modules/analytics/events/common/teams
 import { isActiveWorkspaceShared } from "store/slices/workspaces/selectors";
 import WorkspaceAvatar from "features/workspaces/components/WorkspaceAvatar";
 import { WorkspaceType } from "features/workspaces/types";
+import { getAppMessage } from "i18n";
 
 interface JoinWorkspaceModalProps {
   isOpen: boolean;
@@ -47,7 +48,7 @@ const InviteRow: React.FC<InviteRowProps> = ({ team, callback, modalSrc }) => {
     acceptTeamInvite(team?.inviteId)
       .then((res) => {
         if (res?.success) {
-          toast.success("Successfully joined workspace");
+          toast.success(getAppMessage("workspace.joinedWorkspaceSuccess"));
           if (res?.data?.invite.type === "teams") {
             switchWorkspace(
               {
@@ -72,7 +73,7 @@ const InviteRow: React.FC<InviteRowProps> = ({ team, callback, modalSrc }) => {
         dispatch(globalActions.toggleActiveModal({ modalName: "joinWorkspaceModal", newValue: false }));
       })
       .catch(() => {
-        toast.error("Error while accepting invitation. Please contact workspace admin");
+        toast.error(getAppMessage("workspace.joinWorkspaceError"));
         setIsJoining(false);
         dispatch(globalActions.toggleActiveModal({ modalName: "joinWorkspaceModal", newValue: false }));
       });
@@ -88,9 +89,11 @@ const InviteRow: React.FC<InviteRowProps> = ({ team, callback, modalSrc }) => {
           />
           <div>{team.teamName}</div>
         </Col>
-        <div className="text-gray">{team.teamAccessCount} members</div>
+        <div className="text-gray">
+          {getAppMessage("common.members", (count: number) => `${count} 名成员`)(team.teamAccessCount)}
+        </div>
         <Button loading={isJoining} type="primary" onClick={() => handleJoinClick(team)}>
-          {isJoining ? "Joining" : "Join"}
+          {isJoining ? getAppMessage("common.joining") : getAppMessage("common.join")}
         </Button>
       </div>
     </li>
@@ -159,7 +162,7 @@ const JoinWorkspaceModal: React.FC<JoinWorkspaceModalProps> = ({ isOpen, toggleM
     <RQModal centered open={isOpen} onCancel={toggleModal} className="join-workspace-modal">
       <div className="rq-modal-content">
         {teamInvites?.length > 0 && (
-          <div className="join-workspace-modal-header header">You have access to these workspaces</div>
+          <div className="join-workspace-modal-header header">{getAppMessage("workspace.accessToTheseWorkspaces")}</div>
         )}
 
         {teamInvites?.length > 0 ? (
@@ -171,7 +174,7 @@ const JoinWorkspaceModal: React.FC<JoinWorkspaceModalProps> = ({ isOpen, toggleM
         ) : (
           <div className="title teams-invite-empty-message">
             <img alt="smile" width="48px" height="44px" src="/assets/media/common/smiles.svg" />
-            <div>You don't have any workspace invites!</div>
+            <div>{getAppMessage("workspace.noWorkspaceInvites")}</div>
           </div>
         )}
       </div>
@@ -180,13 +183,13 @@ const JoinWorkspaceModal: React.FC<JoinWorkspaceModalProps> = ({ isOpen, toggleM
       <Row align="middle" justify="space-between" className="rq-modal-footer">
         <Col>
           <LearnMoreLink
-            linkText="Learn more about team workspaces"
+            linkText={getAppMessage("workspace.learnMoreTeamWorkspaces")}
             href={APP_CONSTANTS.LINKS.DEMO_VIDEOS.TEAM_WORKSPACES}
           />
         </Col>
         <Col>
           <Button className="display-row-center" onClick={handleCreateNewWorkspace}>
-            <PlusOutlined /> Create new workspace
+            <PlusOutlined /> {getAppMessage("workspace.createNewWorkspace")}
           </Button>
         </Col>
       </Row>

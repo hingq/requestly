@@ -33,6 +33,7 @@ import {
   trackLoginUserSwitchedEmail,
 } from "modules/analytics/events/common/auth/login";
 import { setRedirectMetadata } from "features/onboarding/utils";
+import { getAppMessage } from "i18n";
 import "./authScreen.scss";
 
 export const AuthScreen = () => {
@@ -66,7 +67,7 @@ export const AuthScreen = () => {
       switch (authErrorCode) {
         case AuthErrorCode.DIFFERENT_USER: {
           trackLoginUserSwitchedEmail(eventSource);
-          return "You're trying to use a different Google account than the one originally entered. Please try again with the correct email.";
+          return getAppMessage("auth.differentGoogleAccount");
         }
         default: {
           return "";
@@ -103,7 +104,7 @@ export const AuthScreen = () => {
         setIsEmailVerificationScreenVisible(true);
       })
       .catch(() => {
-        toast.error("Something went wrong, Could not send email link");
+        toast.error(getAppMessage("auth.couldNotSendEmailLink"));
       })
       .finally(() => {
         setIsSendEmailInProgress(false);
@@ -138,7 +139,7 @@ export const AuthScreen = () => {
     <div className="auth-mode-toggle">
       {authMode === APP_CONSTANTS.AUTH.ACTION_LABELS.LOG_IN ? (
         <>
-          Don't have an account?{" "}
+          {getAppMessage("auth.dontHaveAccount")}{" "}
           <Button
             type="link"
             size="small"
@@ -148,12 +149,12 @@ export const AuthScreen = () => {
               redirectToOAuthUrl(navigate);
             }}
           >
-            Sign up
+            {getAppMessage("auth.signUp")}
           </Button>
         </>
       ) : (
         <>
-          Already have an account?{" "}
+          {getAppMessage("auth.alreadyHaveAccount")}{" "}
           <Button
             onClick={() => {
               trackLoginButtonClicked(eventSource);
@@ -162,7 +163,7 @@ export const AuthScreen = () => {
             size="small"
             type="link"
           >
-            Log in
+            {getAppMessage("auth.logIn")}
           </Button>
         </>
       )}

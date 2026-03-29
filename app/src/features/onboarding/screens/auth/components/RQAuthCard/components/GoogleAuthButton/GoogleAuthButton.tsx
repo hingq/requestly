@@ -11,6 +11,7 @@ import "./googleAuthButton.scss";
 import { AUTH_PROVIDERS } from "modules/analytics/constants";
 import Logger from "../../../../../../../../../../common/logger";
 import * as Sentry from "@sentry/react";
+import { getAppMessage } from "i18n";
 
 interface GoogleAuthButtonProps {
   onGoogleAuthClick?: () => void;
@@ -60,7 +61,7 @@ export const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
           },
           extra: { email, code: AuthErrorCode.NONE, source: "GoogleAuthButton-handleGoogleAuth" },
         });
-        toast.error("Something went wrong. Please try again.");
+        toast.error(getAppMessage("auth.genericRetry"));
         setIsLoading(false);
         return;
       }

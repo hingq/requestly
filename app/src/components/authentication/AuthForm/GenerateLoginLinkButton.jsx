@@ -9,10 +9,12 @@ import { getTimeToResendEmailLogin } from "store/selectors";
 import { useDispatch } from "react-redux";
 import { globalActions } from "store/slices/global/slice";
 import { updateTimeToResendEmailLogin } from "./MagicAuthLinkModal/actions";
+import { getAppMessage } from "i18n";
 
 export default function GenerateEmailAuthLinkBtn({ email, authMode, eventSource, callback }) {
   const timeToResendEmailLogin = useSelector(getTimeToResendEmailLogin);
   const dispatch = useDispatch();
+  const resendInMessage = getAppMessage("magicLink.resendIn", (seconds) => `${seconds} 秒后可重新发送链接`);
 
   const startResetTimerAndAnimation = useCallback(() => {
     updateTimeToResendEmailLogin(dispatch, 30);
@@ -20,7 +22,7 @@ export default function GenerateEmailAuthLinkBtn({ email, authMode, eventSource,
 
   const handleBtnClick = useCallback(() => {
     if (!email || !isEmailValid(email)) {
-      toast.warn("Please enter a valid email");
+      toast.warn(getAppMessage("magicLink.invalidEmail"));
     } else {
       startResetTimerAndAnimation();
       sendEmailLinkForSignin(email, eventSource).then(() => {
@@ -43,16 +45,15 @@ export default function GenerateEmailAuthLinkBtn({ email, authMode, eventSource,
 
   return timeToResendEmailLogin > 0 ? (
     <RQButton
-      title="please check your email for the login link"
+      title={getAppMessage("magicLink.checkInbox")}
       className="form-elements-margin w-full generate-login-link-btn-animation"
       disabled
     >
-      Send link again in {timeToResendEmailLogin} seconds
+      {resendInMessage(timeToResendEmailLogin)}
     </RQButton>
   ) : (
     <RQButton type="primary" className="form-elements-margin w-full" onClick={handleBtnClick}>
-      {" "}
-      Continue with Email
+      {getAppMessage("auth.continueWithEmail")}
     </RQButton>
   );
 }

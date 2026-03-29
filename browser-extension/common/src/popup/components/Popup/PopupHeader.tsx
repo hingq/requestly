@@ -25,7 +25,7 @@ const PopupHeader: React.FC<PopupHeaderProps> = ({ isExtensionEnabled, handleTog
           <Row align="middle">
             <Tooltip
               open={!isExtensionEnabled}
-              title="Please switch on the Requestly extension. When paused, rules won't be applied and sessions won't be recorded."
+              title="请开启 Requestly 扩展。暂停后，规则将不会生效，录制也不会进行。"
               overlayClassName="enable-extension-tooltip"
               color="var(--neutrals-black)"
               overlayInnerStyle={{ fontSize: "14px" }}
@@ -37,12 +37,12 @@ const PopupHeader: React.FC<PopupHeaderProps> = ({ isExtensionEnabled, handleTog
                 className="pause-switch"
               />
             </Tooltip>
-            <Typography.Text>{`Requestly ${isExtensionEnabled ? "running" : "paused"}`}</Typography.Text>
+            <Typography.Text>{`Requestly ${isExtensionEnabled ? "运行中" : "已暂停"}`}</Typography.Text>
           </Row>
         </Col>
         <Col>
           <Button type="primary" className="open-app-btn" onClick={onOpenAppButtonClick}>
-            Open app
+            打开应用
           </Button>
         </Col>
       </Row>

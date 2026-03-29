@@ -17,11 +17,11 @@ const PinnedRecords: React.FC<Props> = ({ setActiveTabKey }) => {
 
   return !pinnedGroups.length && !pinnedRules.length ? (
     <EmptyPopupTab
-      title="You haven't pinned any rules yet!"
-      description=" Feel free to pin your recently used rules for quick access."
+      title="你还没有固定任何规则"
+      description="你可以固定最近使用的规则，方便快速访问。"
       actionButton={
         <PrimaryActionButton size="small" onClick={() => setActiveTabKey(PopupTabKey.RECENTLY_USED)}>
-          See recently used rules
+          查看最近使用的规则
         </PrimaryActionButton>
       }
     />

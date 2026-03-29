@@ -12,6 +12,7 @@ import {
   trackAppUpdateNotificationViewed,
 } from "./analytics";
 import * as Sentry from "@sentry/react";
+import { getAppMessage } from "i18n";
 
 type AppVersions = {
   latestAppVersion: string;
@@ -138,13 +139,13 @@ export const AppUpdateNotifier: React.FC = () => {
       <div className="content">
         <TbRefreshDot className="icon" />
         <div className="title-container">
-          <div className="title">New update available</div>
-          <div className="description">Refresh to apply the latest updates.</div>
+          <div className="title">{getAppMessage("updates.title")}</div>
+          <div className="description">{getAppMessage("updates.description")}</div>
           <RQButton size="small" className="close-btn" icon={<MdClose />} type="transparent" onClick={handleClose} />
         </div>
       </div>
       <RQButton className="refresh-btn" block onClick={handleRefresh}>
-        Refresh now
+        {getAppMessage("updates.refreshNow")}
       </RQButton>
     </div>
   ) : null;

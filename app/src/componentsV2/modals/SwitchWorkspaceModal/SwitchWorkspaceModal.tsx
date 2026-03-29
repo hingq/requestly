@@ -14,6 +14,7 @@ import { trackCreateNewTeamClicked } from "modules/analytics/events/common/teams
 import { getAllWorkspaces } from "store/slices/workspaces/selectors";
 import { Workspace } from "features/workspaces/types";
 import WorkspaceAvatar from "features/workspaces/components/WorkspaceAvatar";
+import { getAppMessage } from "i18n";
 
 interface SwitchWorkspaceModalProps {
   isOpen: boolean;
@@ -72,7 +73,9 @@ const SwitchWorkspaceModal: React.FC<SwitchWorkspaceModalProps> = ({ isOpen, tog
   return (
     <RQModal centered open={isOpen} onCancel={toggleModal}>
       <div className="rq-modal-content switch-workspace-modal-content">
-        {availableWorkspaces?.length > 0 && <div className="header">You have access to these workspaces</div>}
+        {availableWorkspaces?.length > 0 && (
+          <div className="header">{getAppMessage("workspace.accessToTheseWorkspaces")}</div>
+        )}
 
         {availableWorkspaces?.length > 0 ? (
           <ul className="teams-list">
@@ -83,10 +86,15 @@ const SwitchWorkspaceModal: React.FC<SwitchWorkspaceModalProps> = ({ isOpen, tog
                     <WorkspaceAvatar workspace={workspace} />
                     <div>{workspace.name}</div>
                   </Col>
-                  <Col>{`${Object.keys(workspace.members).length} members`}</Col>
+                  <Col>
+                    {getAppMessage(
+                      "common.members",
+                      (count: number) => `${count} 名成员`
+                    )(Object.keys(workspace.members).length)}
+                  </Col>
 
                   <Button type="primary" onClick={() => handleSwitchWorkspaceClick(workspace)}>
-                    Switch
+                    {getAppMessage("common.switch")}
                   </Button>
                 </div>
               </li>
@@ -95,7 +103,7 @@ const SwitchWorkspaceModal: React.FC<SwitchWorkspaceModalProps> = ({ isOpen, tog
         ) : (
           <div className="title teams-empty-message">
             <img alt="smile" width="48px" height="44px" src="/assets/media/common/smiles.svg" />
-            <div>You don't have any workspaces!</div>
+            <div>{getAppMessage("workspace.noWorkspaces")}</div>
           </div>
         )}
       </div>
@@ -104,13 +112,13 @@ const SwitchWorkspaceModal: React.FC<SwitchWorkspaceModalProps> = ({ isOpen, tog
       <Row align="middle" justify="space-between" className="rq-modal-footer">
         <Col>
           <LearnMoreLink
-            linkText="Learn more about team workspaces"
+            linkText={getAppMessage("workspace.learnMoreTeamWorkspaces")}
             href={APP_CONSTANTS.LINKS.DEMO_VIDEOS.TEAM_WORKSPACES}
           />
         </Col>
         <Col>
           <Button className="display-row-center" onClick={handleCreateNewWorkspaceClick}>
-            <PlusOutlined /> Create new workspace
+            <PlusOutlined /> {getAppMessage("workspace.createNewWorkspace")}
           </Button>
         </Col>
       </Row>

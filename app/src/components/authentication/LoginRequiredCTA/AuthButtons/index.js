@@ -8,6 +8,7 @@ import PATHS from "config/constants/sub/paths";
 import { RQButton } from "lib/design-system-v2/components";
 import { trackSignUpButtonClicked } from "modules/analytics/events/common/auth/signup";
 import { trackLoginButtonClicked } from "modules/analytics/events/common/auth/login";
+import { getAppMessage } from "i18n";
 
 const { ACTION_LABELS: AUTH_ACTION_LABELS } = APP_CONSTANTS.AUTH;
 
@@ -61,9 +62,9 @@ const AuthButtons = ({ src, hardRedirect = false, autoPrompt = true }) => {
 
   return (
     <Space>
-      <RQButton onClick={handleLoginButtonOnClick}>Sign in</RQButton>
+      <RQButton onClick={handleLoginButtonOnClick}>{getAppMessage("auth.signIn")}</RQButton>
       <RQButton type="primary" onClick={handleSignUpButtonOnClick}>
-        Sign up
+        {getAppMessage("auth.signUp")}
       </RQButton>
     </Space>
   );

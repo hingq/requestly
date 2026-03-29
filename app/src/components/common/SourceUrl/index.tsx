@@ -4,6 +4,7 @@ import { capitalize } from "lodash";
 import { SessionRecordingPageSource } from "types";
 import "./index.scss";
 import { RulePairSource, RuleSourceKey, RuleSourceOperator } from "@requestly/shared/types/entities/rules";
+import { getAppMessage } from "i18n";
 
 type Source = RulePairSource | SessionRecordingPageSource;
 
@@ -66,7 +67,7 @@ export const SourceConditionInput: React.FC<SourceProps> = ({
         disabled={disabled}
         autoFocus={autoFocus}
         className="source-url-input"
-        placeholder="Enter source URL"
+        placeholder={getAppMessage("filters.enterSourceUrl")}
         value={source.value}
         onChange={(e) => {
           onSourceChange({ ...source, value: e.target.value });

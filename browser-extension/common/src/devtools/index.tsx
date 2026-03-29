@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { ConfigProvider, Tabs, theme } from "antd";
+import zhCN from "antd/lib/locale/zh_CN";
 
 // Import Styles
 import "./index.scss";
@@ -55,7 +56,7 @@ const App: React.FC = () => {
   }, [colorScheme]);
 
   return (
-    <ConfigProvider theme={antDesignTheme}>
+    <ConfigProvider locale={zhCN} theme={antDesignTheme}>
       <ThemeProvider theme={"chrome"} colorScheme={colorScheme}>
         <Tabs
           className="devtools-tabs"
@@ -66,19 +67,19 @@ const App: React.FC = () => {
           tabBarGutter={0}
           items={[
             {
-              label: "Network Traffic",
+              label: "网络流量",
               key: DevtoolsTabKeys.NETWORK,
               children: <NetworkContainer />,
               forceRender: true,
             },
             {
-              label: "Rule Executions",
+              label: "规则执行",
               key: DevtoolsTabKeys.EXECUTIONS,
               children: <ExecutionsContainer />,
               forceRender: true,
             },
             {
-              label: "Analytics Inspector",
+              label: "分析检查",
               key: DevtoolsTabKeys.ANALYTICS_INSPECTOR,
               children: <AnalyticsInspectorContainer />,
               forceRender: true,

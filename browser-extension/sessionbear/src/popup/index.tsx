@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { ConfigProvider, theme } from "antd";
+import zhCN from "antd/lib/locale/zh_CN";
 import Popup from "./components/Popup";
 import "./index.css";
 
@@ -14,7 +15,7 @@ const aliasToken = {
 
 const App: React.FC = () => {
   return (
-    <ConfigProvider theme={{ token: aliasToken, algorithm: [theme.darkAlgorithm] }}>      
+    <ConfigProvider locale={zhCN} theme={{ token: aliasToken, algorithm: [theme.darkAlgorithm] }}>
       <Popup />
     </ConfigProvider>
   );

@@ -11,6 +11,7 @@ import { trackAuthModalShownEvent } from "modules/analytics/events/common/auth/a
 import { trackLoginEmailEntered } from "modules/analytics/events/common/auth/signup";
 import Logger from "../../../../../../../../common/logger";
 import * as Sentry from "@sentry/react";
+import { getAppMessage } from "i18n";
 
 interface EnterEmailCardProps {
   onEmailChange: (email: string) => void;
@@ -40,7 +41,7 @@ export const EnterEmailCard: React.FC<EnterEmailCardProps> = ({ onEmailChange, o
         },
         extra: { email, source: "EnterEmailCard-handleOnContinue" },
       });
-      toast.error("Please enter a valid email address");
+      toast.error(getAppMessage("auth.invalidEmailAddress"));
       setIsLoading(false);
       return;
     }
@@ -67,7 +68,7 @@ export const EnterEmailCard: React.FC<EnterEmailCardProps> = ({ onEmailChange, o
           },
           extra: { email, data, source: "EnterEmailCard-handleOnContinue" },
         });
-        toast.error("Something went wrong! Please try again or contact support.");
+        toast.error(getAppMessage("auth.genericSupportError"));
         setIsLoading(false);
       });
     } catch (error) {
@@ -78,18 +79,18 @@ export const EnterEmailCard: React.FC<EnterEmailCardProps> = ({ onEmailChange, o
         },
         extra: { error, source: "EnterEmailCard-handleOnContinue" },
       });
-      toast.error("Something went wrong! Please try again or contact support.");
+      toast.error(getAppMessage("auth.genericSupportError"));
       setIsLoading(false);
     }
   };
 
   return (
     <div className="enter-email-card">
-      <div className="onboarding-card-title">Sign in to your account</div>
+      <div className="onboarding-card-title">{getAppMessage("auth.signInToAccount")}</div>
       <div style={{ marginTop: "16px" }}>
         <AuthFormInput
           placeholder="name@company.com"
-          label="Your work email"
+          label={getAppMessage("auth.yourWorkEmail")}
           autoFocus
           value={email}
           onValueChange={onEmailChange}
@@ -106,16 +107,16 @@ export const EnterEmailCard: React.FC<EnterEmailCardProps> = ({ onEmailChange, o
         style={{ marginTop: "16px" }}
         onClick={handleOnContinue}
       >
-        Continue
+        {getAppMessage("auth.continue")}
       </RQButton>
       <div className="enter-email-card-footer">
-        By signing in, you agree to our{" "}
+        登录即表示你同意我们的{" "}
         <a href={LINKS.REQUESTLY_TERMS_AND_CONDITIONS} target="_blank" rel="noreferrer">
-          Terms
+          {getAppMessage("auth.terms")}
         </a>{" "}
-        and{" "}
+        和{" "}
         <a href={LINKS.REQUESTLY_PRIVACY_STATEMENT} target="_blank" rel="noreferrer">
-          Privacy statement
+          {getAppMessage("auth.privacyStatement")}
         </a>
       </div>
     </div>

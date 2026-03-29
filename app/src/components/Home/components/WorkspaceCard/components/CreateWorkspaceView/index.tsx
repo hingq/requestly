@@ -9,6 +9,7 @@ import { globalActions } from "store/slices/global/slice";
 import { trackHomeWorkspaceActionClicked } from "components/Home/analytics";
 import { SOURCE } from "modules/analytics/events/common/constants";
 import "./index.scss";
+import { getAppMessage } from "i18n";
 
 export const CreateWorkspaceView: React.FC = () => {
   const user = useSelector(getUserAuthDetails);
@@ -30,12 +31,10 @@ export const CreateWorkspaceView: React.FC = () => {
   return (
     <Col className="create-workspace-view">
       <img src={groupSvg} alt="workspace" />
-      <div className="create-workspace-view-title">Collaborate better with the team using Requestly workspaces</div>
-      <div className="create-workspace-view-description">
-        Share rules, mocks, and sessions. Collaborate to solve problems faster.
-      </div>
+      <div className="create-workspace-view-title">{getAppMessage("workspace.homeCardTitle")}</div>
+      <div className="create-workspace-view-description">{getAppMessage("workspace.homeCardDescription")}</div>
       <AuthConfirmationPopover
-        title="You need to sign up to create a workspace"
+        title={getAppMessage("workspace.signupRequiredForWorkspace")}
         callback={handleCreateWorkspace}
         source="homepage"
       >
@@ -46,7 +45,7 @@ export const CreateWorkspaceView: React.FC = () => {
             user.loggedIn && handleCreateWorkspace();
           }}
         >
-          Create new workspace
+          {getAppMessage("workspace.createNewWorkspace")}
         </RQButton>
       </AuthConfirmationPopover>
     </Col>

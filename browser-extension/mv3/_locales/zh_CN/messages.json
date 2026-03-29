@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Requestly：增强你的开发与测试效率",
+    "description": "Requestly 浏览器扩展名称，展示在应用商店中"
+  },
+  "extDesc": {
+    "message": "支持拦截与修改 HTTP 请求、API Mock、GraphQL Mock、REST API Client、API 测试、修改请求头等功能。",
+    "description": "Requestly 浏览器扩展描述，展示在应用商店中"
+  },
+  "extIconTitle": {
+    "message": "Requestly：增强你的开发与测试效率",
+    "description": "鼠标悬停在 Requestly 扩展图标上时显示的提示文案"
+  }
+}

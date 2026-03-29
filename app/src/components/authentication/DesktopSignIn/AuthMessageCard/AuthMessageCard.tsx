@@ -1,5 +1,6 @@
 import React from "react";
 import { RQButton } from "lib/design-system-v2/components";
+import { getAppMessage } from "i18n";
 import "./authMessageCard.scss";
 
 interface AuthMessageCardProps {
@@ -20,7 +21,7 @@ export const AuthMessageCard: React.FC<AuthMessageCardProps> = ({ icon, message,
       {showCloseBtn ? (
         <div className="desktop-app-auth-message-card-actions">
           <RQButton block size="large" onClick={handleCloseWindow}>
-            Close this window
+            {getAppMessage("auth.closeThisWindow")}
           </RQButton>
         </div>
       ) : null}

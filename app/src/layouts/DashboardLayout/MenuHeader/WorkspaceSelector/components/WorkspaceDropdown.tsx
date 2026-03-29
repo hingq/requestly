@@ -18,11 +18,12 @@ import { CONSTANTS as GLOBAL_CONSTANTS } from "@requestly/requestly-core";
 import { getUserAuthDetails } from "store/slices/global/user/selectors";
 import { WorkspaceType } from "features/workspaces/types";
 import { ApiClientViewMode, useViewMode } from "features/apiClient/slices";
+import { getAppMessage } from "i18n";
 
 const prettifyWorkspaceName = (workspaceName: string) => {
   // if (workspaceName === APP_CONSTANTS.TEAM_WORKSPACES.NAMES.PRIVATE_WORKSPACE)
   //   return "Private";
-  return workspaceName || "Unknown";
+  return workspaceName || getAppMessage("common.unknown");
 };
 
 const WorkSpaceDropDown = ({ teamInvites }: { teamInvites: Invite[] }) => {
@@ -37,7 +38,7 @@ const WorkSpaceDropDown = ({ teamInvites }: { teamInvites: Invite[] }) => {
 
   const activeWorkspaceName = useMemo(() => {
     if (!activeWorkspace?.id) {
-      return user.loggedIn ? "Private Workspace" : "Workspaces";
+      return user.loggedIn ? getAppMessage("workspace.privateWorkspace") : getAppMessage("workspace.workspaces");
     } else {
       return activeWorkspace?.name;
     }
@@ -131,7 +132,7 @@ const WorkSpaceDropDown = ({ teamInvites }: { teamInvites: Invite[] }) => {
 
       {activeWorkspace?.workspaceType === WorkspaceType.LOCAL &&
       isFeatureCompatible(FEATURES.LOCAL_WORKSPACE_REFRESH) ? (
-        <Tooltip title="Load latest changes from your local files" placement="bottom" color="#000">
+        <Tooltip title={getAppMessage("workspace.localSyncRefresh")} placement="bottom" color="#000">
           <RQButton
             onClick={handleLocalSyncRefresh}
             className="local-sync-refresh-btn no-drag"

@@ -25,6 +25,7 @@ import FEATURES from "config/constants/sub/features";
 import { toast } from "utils/Toast";
 import { IoMdArrowBack } from "@react-icons/all-files/io/IoMdArrowBack";
 import { MdInfoOutline } from "@react-icons/all-files/md/MdInfoOutline";
+import { getAppMessage } from "i18n";
 
 type FolderItem = {
   name: string;
@@ -93,7 +94,7 @@ export const LocalWorkspaceCreationView = ({
     },
     onError: (error) => {
       if (!isFeatureCompatible(FEATURES.ONBOARDING_V2)) {
-        toast.error("Cannot open this workspace folder at the moment. Please try again later.");
+        toast.error(getAppMessage("errors.openWorkspaceFailed"));
         return;
       }
       setOpenWorkspaceError(error);
@@ -211,7 +212,7 @@ export const LocalWorkspaceCreationView = ({
     return (
       <>
         <div className="create-workspace-header">
-          <div className="create-workspace-header__title">Add a local workspace</div>
+          <div className="create-workspace-header__title">{getAppMessage("workspace.addLocalWorkspace")}</div>
         </div>
         <div style={{ padding: "12px 0" }}>
           <LocalWorkspaceCreateOptions
@@ -235,31 +236,26 @@ export const LocalWorkspaceCreationView = ({
       <div className="create-workspace-header">
         <div className="create-workspace-header__title">
           {!isOpenedInModal ? <IoMdArrowBack onClick={onCancel} /> : null}
-          Create a new local workspace
+          {getAppMessage("workspace.createLocalWorkspace")}
         </div>
 
         <label
           htmlFor="workspace-folder-location"
           className="create-workspace-header__label workspace-folder-selector-label"
         >
-          Workspace folder location{" "}
-          <Tooltip
-            color="#000"
-            placement="right"
-            title="The selected folder will be used as the root of your workspace. Your APIs, variables and related metadata
-            will be stored in this."
-          >
+          {getAppMessage("workspace.workspaceFolderLocation")}{" "}
+          <Tooltip color="#000" placement="right" title={getAppMessage("workspace.workspaceFolderLocationHelp")}>
             <MdInfoOutline />
           </Tooltip>
         </label>
         <div className="workspace-folder-selector">
           <RQButton icon={<MdOutlineFolder />} onClick={() => displayFolderSelector(folderSelectCallback)}>
-            Select a folder
+            {getAppMessage("workspace.selectFolder")}
           </RQButton>
           {folderPath.length ? <WorkspacePathEllipsis path={folderPath} className="selected-folder-path" /> : null}
         </div>
         <label htmlFor="workspace-name" className="create-workspace-header__label">
-          Workspace name
+          {getAppMessage("workspace.workspaceName")}
         </label>
         <Input
           autoFocus
@@ -272,7 +268,7 @@ export const LocalWorkspaceCreationView = ({
         {hasDuplicateWorkspaceName ? (
           <div className="create-workspace-header__input-error-message">
             <MdInfoOutline />
-            Folder already exists. Use a different name or rename the existing folder.
+            {getAppMessage("workspace.folderAlreadyExists")}
           </div>
         ) : null}
       </div>
@@ -282,22 +278,19 @@ export const LocalWorkspaceCreationView = ({
           <div className="workspace-folder-preview">
             <>
               <div className="preview-header">
-                <div className="preview-title">PREVIEW:</div>
+                <div className="preview-title">{getAppMessage("workspace.preview")}</div>
                 <div className="preview-path">
                   <PiFolderOpen /> {folderPreview.folderPath}
                 </div>
               </div>
               <div className="workspace-folder-preview-content">
                 <div className="workspace-folder-preview-content__new-additions-section preview-folder-items">
-                  <Tooltip
-                    title="This is a preview of the files that will be added to your selected workspace folder."
-                    color="#000"
-                  >
+                  <Tooltip title={getAppMessage("workspace.previewInfo")} color="#000">
                     <MdOutlineInfo className="preview-info-icon" />
                   </Tooltip>
                   <PreviewItem
                     item={{
-                      name: workspaceName || "{{Your workspace name}}",
+                      name: workspaceName || getAppMessage("workspace.workspacePlaceholderName"),
                       path: folderPath,
                       type: "directory",
                       contents: [],

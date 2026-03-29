@@ -8,6 +8,7 @@ import { groupBy } from "lodash";
 import { getUserAuthDetails } from "store/slices/global/user/selectors";
 import { isEmailVerified, resendVerificationEmailHandler } from "utils/AuthUtils";
 import Logger from "lib/logger";
+import { getAppMessage } from "i18n";
 const direction = "ltr";
 
 const getNoticeData = (notices) => {
@@ -101,10 +102,18 @@ export default function HeaderNotifications() {
       id: "verify-email",
       status: "urgent",
       // extra: "Something extra",
-      title: "Verify Email",
+      title: getAppMessage("notifications.verifyEmail"),
       avatar: <CgDanger size={16} className="hp-text-color-warning-1" />,
       clickHandler: () => resendMailHandler(),
-      description: <>{isResendEmailLoading ? <span>Sending...</span> : <span>Click here to resend</span>}</>,
+      description: (
+        <>
+          {isResendEmailLoading ? (
+            <span>{getAppMessage("notifications.sending")}</span>
+          ) : (
+            <span>{getAppMessage("notifications.clickToResend")}</span>
+          )}
+        </>
+      ),
     });
   }
 
@@ -165,7 +174,7 @@ export default function HeaderNotifications() {
           }
           onClick={() => alert("Coming soon!")}
         >
-          Clear all notifications
+          {getAppMessage("notifications.clearAllNotifications")}
         </Button>
       </>
     );
@@ -174,7 +183,7 @@ export default function HeaderNotifications() {
   const renderNoNotification = () => {
     return (
       <div style={{ maxHeight: 300, padding: "0 2px" }}>
-        <span>All clear here!</span>
+        <span>{getAppMessage("notifications.allClear")}</span>
       </div>
     );
   };
@@ -182,10 +191,12 @@ export default function HeaderNotifications() {
   const notificationMenu = (
     <div className="notification-dropdown" style={{ width: 288 }}>
       <Row align="middle" justify="space-between" className="hp-mb-18">
-        <Col>Notifications</Col>
+        <Col>{getAppMessage("notifications.title")}</Col>
 
         {notificationsCount > 0 && unreadMsg.notification && unreadMsg.notification > 0 ? (
-          <Col style={{ padding: "0 2px" }}>{unreadMsg.notification} New</Col>
+          <Col style={{ padding: "0 2px" }}>
+            {getAppMessage("notifications.newCount", (count) => `${count} 条新通知`)(unreadMsg.notification)}
+          </Col>
         ) : null}
       </Row>
 

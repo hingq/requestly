@@ -5,6 +5,7 @@ import { FilterKeys, NetworkFilters } from "./types";
 import { StatusCodeFilter } from "./StatusCodeFilter";
 import { MethodFilter } from "./MethodFilter";
 import "./filtersToolbar.scss";
+import { getAppMessage } from "i18n";
 
 interface Props {
   filters: NetworkFilters;
@@ -42,7 +43,7 @@ const FiltersToolbar: React.FC<Props> = ({ filters, setFilters, disabled = false
     <div className="filters-toolbar">
       <Input
         className="search-filter"
-        placeholder="Filter by URL"
+        placeholder={getAppMessage("filters.filterByUrl")}
         value={searchValue}
         onChange={(e) => {
           setSearchValue(e.target.value);

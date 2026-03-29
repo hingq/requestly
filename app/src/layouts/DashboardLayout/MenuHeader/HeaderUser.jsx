@@ -30,6 +30,7 @@ import { trackLoginButtonClicked } from "modules/analytics/events/common/auth/lo
 import { trackSignUpButtonClicked } from "modules/analytics/events/common/auth/signup";
 import { setRedirectMetadata } from "features/onboarding/utils";
 import { LoggedOutPopover } from "./LoggedOutPopover/LoggedOutPopover";
+import { getAppMessage } from "i18n";
 
 export default function HeaderUser() {
   const navigate = useNavigate();
@@ -207,7 +208,7 @@ export default function HeaderUser() {
               handleAuthButtonClick(APP_CONSTANTS.AUTH.ACTION_LABELS.LOG_IN);
             }}
           >
-            Sign in
+            {getAppMessage("auth.signIn")}
           </RQButton>
           <RQButton
             loading={isSignupButtonLoading}
@@ -215,7 +216,7 @@ export default function HeaderUser() {
             className="layout-header-signup-btn no-drag"
             onClick={handleSignupClick}
           >
-            Sign up
+            {getAppMessage("auth.signUp")}
           </RQButton>
         </div>
       )}

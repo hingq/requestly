@@ -8,6 +8,7 @@ import { getUserAuthDetails } from "store/slices/global/user/selectors";
 import { getDomainFromEmail } from "utils/FormattingHelper";
 import { WorkspaceType } from "features/workspaces/types";
 import { useWorkspaceCreationContext } from "../../context";
+import { getAppMessage } from "i18n";
 
 export const SharedWorkspaceCreationView = ({
   onCreateWorkspaceClick,
@@ -34,12 +35,12 @@ export const SharedWorkspaceCreationView = ({
   return (
     <>
       <div className="create-workspace-header">
-        <div className="create-workspace-header__title">Create a new team workspace</div>
+        <div className="create-workspace-header__title">{getAppMessage("workspace.teamWorkspaceCreateTitle")}</div>
         <div className="create-workspace-header__description">
-          Workspaces are where your team collaborate on rules, variables, and mocks.
+          {getAppMessage("workspace.teamWorkspaceCreateDescription")}
         </div>
         <label htmlFor="workspace-name" className="create-workspace-header__label">
-          Workspace name
+          {getAppMessage("workspace.workspaceName")}
         </label>
         <Input
           autoFocus
@@ -52,7 +53,10 @@ export const SharedWorkspaceCreationView = ({
       <div className="invite-all-domain-users-container">
         <Checkbox checked={isNotifyAllSelected} onChange={() => setIsNotifyAllSelected(!isNotifyAllSelected)} />{" "}
         <span className="invite-all-domain-users-text">
-          Notify all {getDomainFromEmail(user.details?.profile?.email)} users to join this workspace.
+          {getAppMessage(
+            "workspace.notifyDomainUsers",
+            (domain: string) => `通知 ${domain} 的所有用户加入此工作区。`
+          )(getDomainFromEmail(user.details?.profile?.email))}
         </span>
       </div>
       <CreateWorkspaceFooter

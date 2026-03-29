@@ -11,54 +11,52 @@ export enum AuthTypes {
 const getForgotPasswordErrorMessage = (errorCode: string) => {
   switch (errorCode) {
     case "auth/user-not-found":
-      return "Unable to find an account with this email address. Please try again.";
+      return "找不到与该邮箱关联的账户，请重试。";
 
     case "auth/invalid-email":
-      return "This email seems invalid. Please recheck.";
+      return "邮箱格式无效，请检查后重试。";
 
     default:
-      return (
-        "Unable to request new password this time. Please write us to " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL
-      );
+      return "暂时无法重置密码，请联系 " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
   }
 };
 const getSignInErrorMessage = (errorCode: string) => {
   switch (errorCode) {
     case "auth/invalid-email":
-      return "Please enter a valid email";
+      return "请输入有效的邮箱地址";
 
     case "auth/user-not-found":
-      return "This email is not registered. Please sign up.";
+      return "该邮箱尚未注册，请先注册。";
 
     case "auth/wrong-password":
-      return "Invalid email or password. Please try again or use Forgot Password.";
+      return "邮箱或密码错误，请重试或使用找回密码。";
 
     case "auth/user-disabled":
-      return "Sorry but your account is disabled. Please write us to " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
+      return "你的账户已被禁用，请联系 " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
 
     default:
-      return "Sorry, we couldn't log you in. Please write us to " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
+      return "登录失败，请联系 " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
   }
 };
 
 const getSignUpErrorMessage = (errorCode: string) => {
   switch (errorCode) {
     case "no-name":
-      return "Please enter your name.";
+      return "请输入姓名。";
     case "no-email":
     case "auth/invalid-email":
-      return "Please enter a valid email address.";
+      return "请输入有效的邮箱地址。";
     case "no-password":
-      return "Please enter a password to create.";
+      return "请输入用于创建账户的密码。";
     case "auth/email-already-in-use":
-      return "The email you entered is already in use. Try signing in.";
+      return "该邮箱已被使用，请直接登录。";
     case "auth/weak-password":
-      return "Please choose a stronger password";
+      return "请设置更强的密码";
     case "auth/operation-not-allowed":
-      return "Sorry but your account is disabled. Please write us to " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
+      return "你的账户已被禁用，请联系 " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
     default:
       console.error("Unknown error code", errorCode);
-      return "Sorry, we couldn't sign you up. Please write us to " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
+      return "注册失败，请联系 " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
   }
 };
 
@@ -74,7 +72,7 @@ export const getAuthErrorMessage = (authType: string, errorCode: string) => {
       return getForgotPasswordErrorMessage(errorCode);
 
     default:
-      return "An unexpected has occurred. Please write us to " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
+      return "发生未知错误，请联系 " + GLOBAL_CONSTANTS.COMPANY_INFO.SUPPORT_EMAIL;
   }
 };
 

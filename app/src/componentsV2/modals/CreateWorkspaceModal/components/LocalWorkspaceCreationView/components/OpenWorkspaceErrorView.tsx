@@ -4,6 +4,7 @@ import { WorkspaceCreationErrorView } from "./WorkspaceCreationErrorView/Workspa
 import { displayFolderSelector } from "components/mode-specific/desktop/misc/FileDialogButton";
 import { trackLocalWorkspaceCreationConflictShown } from "modules/analytics/events/common/teams";
 import { useWorkspaceCreationContext } from "componentsV2/modals/CreateWorkspaceModal/context";
+import { getAppMessage } from "i18n";
 
 interface Props {
   path: string;
@@ -29,9 +30,8 @@ export const OpenWorkspaceErrorView: React.FC<Props> = ({
   return (
     <>
       <WorkspaceCreationErrorView
-        title="Workspace couldn’t be opened"
-        description="We couldn’t find the workspace configuration file (requestly.json) in this folder. 
-      This error usually occurs when the wrong folder is selected, or if you've selected a subfolder instead of the workspace root."
+        title={getAppMessage("workspace.openErrorTitle")}
+        description={getAppMessage("workspace.openErrorDescription")}
         path={path}
         actions={
           <>
@@ -41,14 +41,14 @@ export const OpenWorkspaceErrorView: React.FC<Props> = ({
                 onNewWorkspaceClick();
               }}
             >
-              Create a new workspace here
+              {getAppMessage("workspace.createWorkspaceHere")}
             </RQButton>
             <RQButton
               type="primary"
               onClick={() => displayFolderSelector((folderPath: string) => openWorkspace(folderPath))}
               loading={isOpeningWorkspaceLoading}
             >
-              Select another folder
+              {getAppMessage("workspace.selectAnotherFolder")}
             </RQButton>
           </>
         }

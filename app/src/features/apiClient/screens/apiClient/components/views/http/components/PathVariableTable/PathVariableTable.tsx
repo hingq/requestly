@@ -10,30 +10,28 @@ import { KeyValueTableSettingsDropdown } from "../../../components/request/compo
 import { capitalize } from "lodash";
 import { BufferedHttpRecordEntity } from "features/apiClient/slices/entities";
 import { useApiClientSelector } from "features/apiClient/slices/hooks/base.hooks";
+import { getAppMessage } from "i18n";
 
 interface PathVariableTableProps {
-  entity: BufferedHttpRecordEntity,
+  entity: BufferedHttpRecordEntity;
 }
 
 type ColumnTypes = Exclude<TableProps<RQAPI.PathVariable>["columns"], undefined>;
 
 export const PathVariableTable: React.FC<PathVariableTableProps> = ({ entity }) => {
-  const variables = useApiClientSelector(s => entity.getPathVariables(s) || []);
+  const variables = useApiClientSelector((s) => entity.getPathVariables(s) || []);
   const scopedVariables = useScopedVariables(entity.meta.referenceId);
   const [showDescription, setShowDescription] = useState(false);
 
-  const handleUpdateVariable = useCallback(
-    (variable: RQAPI.PathVariable) => {
-      const { id, key, ...patch } = variable;
-      entity.setPathVariable(key, patch);
-    },
-    []
-  );
+  const handleUpdateVariable = useCallback((variable: RQAPI.PathVariable) => {
+    const { id, key, ...patch } = variable;
+    entity.setPathVariable(key, patch);
+  }, []);
 
   const columns = useMemo(() => {
     return [
       {
-        title: "Key",
+        title: getAppMessage("apiClient.key"),
         dataIndex: "key",
         minWidth: "30%",
         editable: false,
@@ -47,7 +45,7 @@ export const PathVariableTable: React.FC<PathVariableTableProps> = ({ entity }) 
         }),
       },
       {
-        title: "Value",
+        title: getAppMessage("apiClient.value"),
         dataIndex: "value",
         minWidth: "30%",
         editable: true,
@@ -66,7 +64,7 @@ export const PathVariableTable: React.FC<PathVariableTableProps> = ({ entity }) 
       {
         title: (
           <div className="path-variable-table-settings">
-            <span>Type</span>
+            <span>{getAppMessage("apiClient.type")}</span>
             {!showDescription && (
               <KeyValueTableSettingsDropdown
                 showDescription={showDescription}
@@ -93,7 +91,7 @@ export const PathVariableTable: React.FC<PathVariableTableProps> = ({ entity }) 
       showDescription && {
         title: (
           <div className="path-variable-table-settings">
-            <span>Description</span>
+            <span>{getAppMessage("apiClient.description")}</span>
             <KeyValueTableSettingsDropdown
               showDescription={showDescription}
               onToggleDescription={(show: any) => {
@@ -123,7 +121,7 @@ export const PathVariableTable: React.FC<PathVariableTableProps> = ({ entity }) 
 
   return (
     <>
-      <div className="params-table-title path-variables-table-title">Path Variables</div>
+      <div className="params-table-title path-variables-table-title">{getAppMessage("apiClient.pathVariables")}</div>
       <ContentListTable
         id="api-path-variable-table"
         className="api-path-variable-table"
@@ -132,7 +130,7 @@ export const PathVariableTable: React.FC<PathVariableTableProps> = ({ entity }) 
         rowKey="id"
         columns={columns as ColumnTypes}
         data={variables}
-        locale={{ emptyText: `No path variables found` }}
+        locale={{ emptyText: getAppMessage("apiClient.noPathVariablesFound") }}
         components={{
           body: {
             row: PathVariableTableEditableRow,

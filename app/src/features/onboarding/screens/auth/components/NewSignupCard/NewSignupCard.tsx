@@ -13,6 +13,7 @@ import { SOURCE } from "modules/analytics/events/common/constants";
 import "./newSignupCard.scss";
 import { trackSignUpButtonClicked } from "modules/analytics/events/common/auth/signup";
 import { setRedirectMetadata } from "features/onboarding/utils";
+import { getAppMessage } from "i18n";
 
 export const NewSignupCard = () => {
   const navigate = useNavigate();
@@ -59,18 +60,16 @@ export const NewSignupCard = () => {
 
   return (
     <OnboardingCard>
-      <div className="onboarding-card-title">Create your free account</div>
+      <div className="onboarding-card-title">{getAppMessage("auth.createFreeAccount")}</div>
       {appMode === GLOBAL_CONSTANTS.APP_MODES.DESKTOP ? (
-        <div className="onboarding-card-description">
-          You will be redirected to your browser to securely complete the sign-up process in a few simple steps.
-        </div>
+        <div className="onboarding-card-description">{getAppMessage("auth.desktopSignupRedirectDescription")}</div>
       ) : null}
       <div className="new-signup-card-actions">
         <RQButton size="large" block type="primary" onClick={handleCreateNewAccountClick}>
-          Create new account
+          {getAppMessage("auth.createNewAccount")}
         </RQButton>
         <RQButton size="large" block onClick={handleSignInClick}>
-          Already have an account? Sign in
+          {`${getAppMessage("auth.alreadyHaveAccount")} ${getAppMessage("auth.signIn")}`}
         </RQButton>
       </div>
     </OnboardingCard>

@@ -197,7 +197,7 @@ export async function signUp(email, password, refCode, source) {
 export async function sendEmailLinkForSignin(
   email,
   source,
-  toastMessage = "Please check your email for instructions to login."
+  toastMessage = "请检查你的邮箱，按照邮件中的说明完成登录。"
 ) {
   const auth = getAuth(firebaseApp);
   return sendSignInLinkToEmail(auth, email, {
@@ -210,7 +210,7 @@ export async function sendEmailLinkForSignin(
       trackEmailLoginLinkGenerated(email, source);
     })
     .catch((err) => {
-      toast.error("Failed to send login link. Please try again, or contact support if the problem persists");
+      toast.error("发送登录链接失败，请重试；若问题持续，请联系支持团队。");
       trackGenerateMagicLinkFailed(email, source, err?.message);
       console.log(err);
     });
@@ -327,10 +327,10 @@ export const handleCustomGoogleSignIn = async (credential, successfulLoginCallba
     const OAuthCredential = GoogleAuthProvider.credential(credential);
     const result = await signInWithCredential(auth, OAuthCredential);
 
-    toast.success(`Welcome back ${result.user.displayName}`);
+    toast.success(`欢迎回来，${result.user.displayName}`);
     successfulLoginCallback();
   } catch (error) {
-    toast.error("Something went wrong. Please try again.");
+    toast.error("发生错误，请稍后重试。");
     failedLoginCallback(AuthErrorCode.UNKNOWN);
   }
 };

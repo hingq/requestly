@@ -14,6 +14,7 @@ import { trackLoginSuccessEvent } from "modules/analytics/events/common/auth/log
 import { AUTH_PROVIDERS } from "modules/analytics/constants";
 import Logger from "../../../../../../../../../../common/logger";
 import * as Sentry from "@sentry/react";
+import { getAppMessage } from "i18n";
 
 interface EmailVerificationCardProps {
   onBackClick: () => void;
@@ -72,7 +73,7 @@ export const EmailVerificationCard: React.FC<EmailVerificationCardProps> = ({
           },
           extra: { email, error, source: "EmailVerificationCard-handleResendEmailClick" },
         });
-        throw new Error("Something went wrong, Could not send email link ");
+        throw new Error(getAppMessage("auth.couldNotSendEmailLink"));
       });
   }, [onResendEmailClick, email]);
 
@@ -80,19 +81,18 @@ export const EmailVerificationCard: React.FC<EmailVerificationCardProps> = ({
     <div className="rq-auth-card email-verification-card">
       <div className="rq-auth-card-header">
         <IoMdArrowBack onClick={onBackClick} />
-        <span>Back</span>
+        <span>{getAppMessage("auth.back")}</span>
       </div>
       <div className="verify-email-card-body">
         <div className="verify-email-card-content">
           <img src="/assets/media/common/email_spark.svg" alt="email with a spark " />
-          <div className="verify-email-card-content__header">Welcome Back!</div>
+          <div className="verify-email-card-content__header">{getAppMessage("auth.welcomeBackTitle")}</div>
           <div className="verify-email-card-body__description">
-            We just sent a sign in link at <span className="verify-email-card-content__description-email">{email}</span>{" "}
-            for you to access your account super quick.
+            {getAppMessage("auth.magicLinkSentDescription", (value: string) => value)(email)}
           </div>
         </div>
         <Divider />
-        <div className="verify-email-card-body__description text-bold">Didn't receive the email?</div>
+        <div className="verify-email-card-body__description text-bold">{getAppMessage("auth.didntReceiveEmail")}</div>
       </div>
       <div className="verify-email-card-body__actions">
         <RQButton
@@ -102,11 +102,13 @@ export const EmailVerificationCard: React.FC<EmailVerificationCardProps> = ({
           disabled={countdown > 0}
           onClick={handleResendEmailClick}
         >
-          {countdown > 0 ? `Send email again in ${countdown}` : "Send email again"}
+          {countdown > 0
+            ? getAppMessage("auth.resendEmailIn", (seconds: number) => `${seconds} 秒后可再次发送`)(countdown)
+            : getAppMessage("auth.resendEmailNow")}
         </RQButton>
         {authProviders.includes(AuthProvider.GOOGLE) ? (
           <>
-            <span className="verify-email-card-body__description">or</span>
+            <span className="verify-email-card-body__description">{getAppMessage("auth.or")}</span>
             {googleAuthButton}
           </>
         ) : null}

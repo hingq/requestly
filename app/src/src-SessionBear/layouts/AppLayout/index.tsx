@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { submitAppDetailAttributes } from "utils/AnalyticsUtils.js";
 import { ConfigProvider } from "antd";
-import enUS from "antd/lib/locale/en_US";
+import zhCN from "antd/lib/locale/zh_CN";
 import ThirdPartyIntegrationsHandler from "hooks/ThirdPartyIntegrationsHandler";
 import { GrowthBookProvider } from "@growthbook/growthbook-react";
 import { growthbook } from "utils/feature-flag/growthbook";
@@ -20,11 +20,15 @@ import DBListeners from "hooks/DbListenerInit/DBListeners";
 import { Outlet } from "react-router-dom";
 import { GlobalModals } from "./GlobalModals";
 import { LoginRequiredHandler } from "hooks/LoginRequiredHandler";
+import moment from "moment";
+import "moment/locale/zh-cn";
 
 const App: React.FC = () => {
   useEffect(() => {
     // Load features asynchronously when the app renders
     growthbook.loadFeatures({ autoRefresh: true });
+    document.documentElement.lang = "zh-CN";
+    moment.locale("zh-cn");
   }, []);
 
   useIsExtensionEnabled();
@@ -44,7 +48,7 @@ const App: React.FC = () => {
       {/* @ts-ignore */}
       <ThirdPartyIntegrationsHandler />
       <ThemeProvider>
-        <ConfigProvider locale={enUS}>
+        <ConfigProvider locale={zhCN}>
           <GrowthBookProvider growthbook={growthbook}>
             <LocalUserAttributesHelperComponent />
             <LazyMotion features={domMax} strict>

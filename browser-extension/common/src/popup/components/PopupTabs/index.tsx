@@ -51,7 +51,7 @@ const PopupTabs: React.FC<{
         label: (
           <span>
             <PushpinOutlined rotate={-45} />
-            Pinned rules
+            已固定
           </span>
         ),
         children: <PinnedRecords setActiveTabKey={setActiveTabKey} />,
@@ -61,7 +61,7 @@ const PopupTabs: React.FC<{
         label: (
           <span>
             <ClockCircleOutlined />
-            Recently used
+            最近使用
           </span>
         ),
         children: <RecentRecords />,
@@ -71,7 +71,7 @@ const PopupTabs: React.FC<{
         label: (
           <span>
             <CheckCircleOutlined />
-            Executed rules
+            已执行
             <Badge size="small" count={executedRules.length} overflowCount={20} className="popup-tab-badge" />
           </span>
         ),
@@ -96,7 +96,7 @@ const PopupTabs: React.FC<{
         children: (
           <>
             {icons.Response}
-            <span>Modify API Response</span>
+            <span>修改 API 响应</span>
           </>
         ),
         clickHandler: () =>
@@ -110,7 +110,7 @@ const PopupTabs: React.FC<{
         children: (
           <>
             {icons.Headers}
-            <span>Modify Headers</span>
+            <span>修改请求头</span>
           </>
         ),
         clickHandler: () =>
@@ -121,7 +121,7 @@ const PopupTabs: React.FC<{
         children: (
           <>
             {icons.Redirect}
-            <span>Redirect Request</span>
+            <span>重定向请求</span>
           </>
         ),
         clickHandler: () =>
@@ -135,7 +135,7 @@ const PopupTabs: React.FC<{
         children: (
           <>
             {icons.Replace}
-            <span>Replace String</span>
+            <span>替换字符串</span>
           </>
         ),
         clickHandler: () =>
@@ -146,7 +146,7 @@ const PopupTabs: React.FC<{
         key: "other",
         children: (
           <Row align="middle" gutter={8} className="more-rules-link-option">
-            <Col>View more options</Col>
+            <Col>查看更多选项</Col>
             <ExternalLinkIcon style={{ color: "var(--white)" }} />
           </Row>
         ),
@@ -181,7 +181,7 @@ const PopupTabs: React.FC<{
       }}
     >
       <Row justify="space-between" align="middle" className="tabs-header">
-        <Typography.Text strong>HTTP rules</Typography.Text>
+        <Typography.Text strong>HTTP 规则</Typography.Text>
         <Dropdown
           overlay={ruleDropdownMenu}
           trigger={["click"]}
@@ -193,7 +193,7 @@ const PopupTabs: React.FC<{
             className="new-rule-dropdown-btn"
             onClick={() => sendEvent(EVENT.NEW_RULE_BUTTON_CLICKED)}
           >
-            New rule{" "}
+            新建规则{" "}
             <ArrowIcon
               className={`new-rule-dropdown-btn-arrow ${isRuleDropdownOpen ? "new-rule-dropdown-btn-arrow-up" : ""}`}
             />

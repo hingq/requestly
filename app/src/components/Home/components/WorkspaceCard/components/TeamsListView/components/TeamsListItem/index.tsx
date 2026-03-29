@@ -19,6 +19,7 @@ import { SOURCE } from "modules/analytics/events/common/constants";
 import "./teamsListItem.scss";
 import WorkspaceAvatar from "features/workspaces/components/WorkspaceAvatar";
 import { Workspace } from "features/workspaces/types";
+import { getAppMessage } from "i18n";
 
 type Member = {
   id: any;
@@ -73,7 +74,7 @@ export const TeamsListItem: React.FC<Props> = ({ inviteId, workspace }) => {
     acceptTeamInvite(inviteId)
       .then((res) => {
         if (res?.success) {
-          toast.success("Team joined successfully");
+          toast.success(getAppMessage("workspace.teamJoinedSuccessfully"));
           setHasJoined(true);
           trackWorkspaceInviteAccepted(
             workspace?.id,
@@ -84,12 +85,12 @@ export const TeamsListItem: React.FC<Props> = ({ inviteId, workspace }) => {
             res?.data?.invite?.metadata?.teamAccessCount
           );
         } else {
-          toast.error("Something went wrong, please try again");
+          toast.error(getAppMessage("errors.genericRetry"));
         }
       })
       .catch((e) => {
         Logger.error(e);
-        toast.error("Something went wrong, please try again");
+        toast.error(getAppMessage("errors.genericRetry"));
       })
       .finally(() => {
         setIsJoining(false);
@@ -146,7 +147,7 @@ export const TeamsListItem: React.FC<Props> = ({ inviteId, workspace }) => {
           )}
         </Row>
         {!inviteId && (
-          <Tooltip color="#000" title="Manage workspace">
+          <Tooltip color="#000" title={getAppMessage("workspace.manageWorkspace")}>
             <RQButton
               type="default"
               iconOnly
@@ -164,14 +165,14 @@ export const TeamsListItem: React.FC<Props> = ({ inviteId, workspace }) => {
             {hasJoined ? (
               <Col className="teams-list-joined-tag">
                 <BiCheckCircle />
-                <span>Joined</span>
+                <span>{getAppMessage("workspace.joined")}</span>
               </Col>
             ) : (
               <RQButton onClick={handleJoining} className={`${isJoining ? "teams-list-join-btn-dark-bg" : ""}`}>
                 {isJoining ? (
                   <Spin indicator={<LoadingOutlined className="teams-list-join-btn-loader" spin />} />
                 ) : (
-                  "Join"
+                  getAppMessage("common.join")
                 )}
               </RQButton>
             )}
@@ -193,7 +194,7 @@ export const TeamsListItem: React.FC<Props> = ({ inviteId, workspace }) => {
               );
             }}
           >
-            Invite
+            {getAppMessage("workspace.invite")}
           </RQButton>
         )}
       </Col>

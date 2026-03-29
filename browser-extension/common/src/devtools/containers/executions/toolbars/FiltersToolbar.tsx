@@ -43,16 +43,16 @@ const FiltersToolbar: React.FC<Props> = ({ filters, onFiltersChange }) => {
     <div className="executions-toolbar filters">
       <Input
         className="url-filter"
-        addonBefore="URL"
-        placeholder="Filter by URL"
+        addonBefore="地址"
+        placeholder="按 URL 筛选"
         value={filters.url}
         onChange={(e) => onUrlFilterChange(e.target.value)}
         allowClear
       />
       <Input
         className="rule-filter"
-        addonBefore="Rule name"
-        placeholder="Filter by Rule name"
+        addonBefore="规则名"
+        placeholder="按规则名筛选"
         value={filters.ruleName}
         onChange={(e) => onRuleNameFilterChange(e.target.value)}
         allowClear

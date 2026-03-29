@@ -18,7 +18,7 @@ const ExecutedRules: React.FC<ExecutedRulesProps> = ({ executedRules, setExecute
   }, []);
 
   return executedRules.length > 0 ? (
-    <TabContentSection heading="Rules executed in this tab:">
+    <TabContentSection heading="此标签页中已执行的规则：">
       <ul className="record-list">
         {executedRules.map((rule) => (
           <RuleItem rule={rule} key={rule.id} onRuleUpdated={updateExecutedRule} />
@@ -27,11 +27,11 @@ const ExecutedRules: React.FC<ExecutedRulesProps> = ({ executedRules, setExecute
     </TabContentSection>
   ) : (
     <EmptyPopupTab
-      title="No rules executed for this tab!"
+      title="此标签页没有执行任何规则"
       description={
         <>
-          Your executed rules will appear here.
-          <br /> If you encounter any issues, check our troubleshooting guide.
+          已执行的规则会显示在这里。
+          <br /> 如果遇到问题，请查看故障排查指南。
         </>
       }
       actionButton={
@@ -39,7 +39,7 @@ const ExecutedRules: React.FC<ExecutedRulesProps> = ({ executedRules, setExecute
           size="small"
           onClick={() => window.open(LINKS.REQUESTLY_EXTENSION_TROUBLESHOOTING, "_blank")}
         >
-          Read troubleshooting guide
+          查看排查指南
         </PrimaryActionButton>
       }
     />

@@ -15,6 +15,7 @@ import { trackLoginAttemptedEvent } from "modules/analytics/events/common/auth/l
 import { getSSOProviderId } from "backend/auth/sso";
 import Logger from "../../../../../../../../common/logger";
 import * as Sentry from "@sentry/react";
+import { getAppMessage } from "i18n";
 
 interface RQAuthCardProps {
   onBackClick: () => void;
@@ -60,7 +61,7 @@ export const RQAuthCard: React.FC<RQAuthCardProps> = ({
         extra: { email, err, source: "RQAuthCard-handleSSOLogin" },
       });
       failedLoginCallback(AuthErrorCode.UNKNOWN, AUTH_PROVIDERS.SSO);
-      toast.error("Something went wrong, Could not sign in with SSO");
+      toast.error(getAppMessage("auth.couldNotSignInWithSSO"));
       setIsSSOLoginInProgress(false);
     }
   }, [email, eventSource, successfulLoginCallback, failedLoginCallback]);
@@ -86,7 +87,7 @@ export const RQAuthCard: React.FC<RQAuthCardProps> = ({
       case AuthProvider.SSO:
         return (
           <RQButton loading={isSSOLoginInProgress} onClick={handleSSOLogin} className="mt-16" size="large" block>
-            Sign in with SSO
+            {getAppMessage("auth.signInWithSSO")}
           </RQButton>
         );
     }
@@ -96,14 +97,14 @@ export const RQAuthCard: React.FC<RQAuthCardProps> = ({
     <div className="rq-auth-card">
       <div className="rq-auth-card-header">
         <IoMdArrowBack onClick={onBackClick} />
-        <span>Sign in to your account</span>
+        <span>{getAppMessage("auth.signInToAccount")}</span>
       </div>
       <div className="rq-auth-card__auth-options-container">
         {authProviders.map((provider, index) => {
           return (
             <React.Fragment key={index}>
               {renderAuthProvider(provider)}
-              {index === 0 && authProviders.length > 1 ? <Divider plain>or</Divider> : null}
+              {index === 0 && authProviders.length > 1 ? <Divider plain>{getAppMessage("auth.or")}</Divider> : null}
             </React.Fragment>
           );
         })}

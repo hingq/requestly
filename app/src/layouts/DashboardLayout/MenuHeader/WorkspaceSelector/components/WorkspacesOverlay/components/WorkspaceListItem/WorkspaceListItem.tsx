@@ -25,6 +25,7 @@ import { getWorkspaceInfo } from "features/apiClient/slices/workspaceView/utils"
 import { getUserAuthDetails } from "store/slices/global/user/selectors";
 import { getActiveWorkspace } from "store/slices/workspaces/selectors";
 import { ApiClientViewMode } from "features/apiClient/slices";
+import { getAppMessage } from "i18n";
 
 type WorkspaceItemProps =
   | {
@@ -68,7 +69,7 @@ const ShareWorkspaceActions = ({
   return (
     <>
       {!isPrivateWorkspace && activeWorkspace.id === workspaceId && viewMode === ApiClientViewMode.SINGLE ? (
-        <Tag className="workspace-list-item-active-tag">CURRENT</Tag>
+        <Tag className="workspace-list-item-active-tag">{getAppMessage("workspace.current")}</Tag>
       ) : null}
       <div className="shared-workspace-actions">
         <RQButton
@@ -137,10 +138,10 @@ const LocalWorkspaceActions = ({
   return (
     <>
       {activeWorkspace.id === workspace.id && viewMode === ApiClientViewMode.SINGLE ? (
-        <Tag className="workspace-list-item-active-tag">CURRENT</Tag>
+        <Tag className="workspace-list-item-active-tag">{getAppMessage("workspace.current")}</Tag>
       ) : null}
       <div className="local-workspace-actions" onClick={(e) => e.stopPropagation()}>
-        <Tooltip title="Settings" color="#000">
+        <Tooltip title={getAppMessage("common.settings")} color="#000">
           <RQButton
             className="local-workspace-actions__settings-btn"
             type="transparent"
@@ -178,7 +179,7 @@ export const WorkspaceItem: React.FC<WorkspaceItemProps> = (props) => {
       case WorkspaceType.SHARED: {
         const count =
           (workspace.members ? Object.keys(workspace.members).length : undefined) ?? workspace.membersCount ?? 0;
-        return `${count} ${count === 1 ? "member" : "members"}`;
+        return getAppMessage("common.members", (memberCount: number) => `${memberCount} 名成员`)(count);
       }
       case WorkspaceType.LOCAL:
         return workspace.rootPath;
@@ -205,7 +206,7 @@ export const WorkspaceItem: React.FC<WorkspaceItemProps> = (props) => {
           }}
         />
         <div className="workspace-overlay__list-item-details">
-          <div className="workspace-list-item-name">Private Workspace</div>
+          <div className="workspace-list-item-name">{getAppMessage("workspace.privateWorkspace")}</div>
         </div>
       </div>
     );

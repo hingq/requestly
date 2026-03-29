@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { submitAppDetailAttributes } from "utils/AnalyticsUtils.js";
 import { ConfigProvider } from "antd";
-import enUS from "antd/lib/locale/en_US";
+import zhCN from "antd/lib/locale/zh_CN";
 import useGeoLocation from "hooks/useGeoLocation";
 import UpdateDialog from "components/mode-specific/desktop/UpdateDialog";
 import ThirdPartyIntegrationsHandler from "hooks/ThirdPartyIntegrationsHandler";
@@ -32,12 +32,16 @@ import { useAppLanguageObserver } from "hooks/useAppLanguageObserver";
 import useClientStorageService from "services/clientStorageService/hooks/useClientStorageService";
 import { BlockScreenHoc } from "componentsV2/BlockScreen/BlockScreenHoc";
 import { AppUpdateNotifier } from "componentsV2/AppUpdateNotifier/AppUpdateNotifier";
+import moment from "moment";
+import "moment/locale/zh-cn";
 
 const { PATHS } = APP_CONSTANTS;
 const App: React.FC = () => {
   useEffect(() => {
     // Load features asynchronously when the app renders
     growthbook.loadFeatures({ autoRefresh: true });
+    document.documentElement.lang = "zh-CN";
+    moment.locale("zh-cn");
   }, []);
 
   usePreLoadRemover();
@@ -85,7 +89,7 @@ const App: React.FC = () => {
         {/* @ts-ignore */}
         <ThirdPartyIntegrationsHandler />
         <ThemeProvider>
-          <ConfigProvider locale={enUS}>
+          <ConfigProvider locale={zhCN}>
             {/* @ts-ignore */}
             <InitImplicitWidgetConfigHandler />
             <LocalUserAttributesHelperComponent />

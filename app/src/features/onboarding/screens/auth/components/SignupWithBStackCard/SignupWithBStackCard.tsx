@@ -9,6 +9,7 @@ import "./signupWithBStackCard.scss";
 import { AuthScreenMode } from "../../types";
 import { trackSignUpButtonClicked } from "modules/analytics/events/common/auth/signup";
 import { setRedirectMetadata } from "features/onboarding/utils";
+import { getAppMessage } from "i18n";
 
 interface SignupWithBStackCardProps {
   onBackButtonClick: () => void;
@@ -36,13 +37,13 @@ export const SignupWithBStackCard = ({ onBackButtonClick }: SignupWithBStackCard
   return (
     <div className="signup-with-bstack-card">
       <div className="onboarding-card-title signup-with-bstack-card-title  text-center">
-        <IoMdArrowBack onClick={onBackButtonClick} /> <span>No account found. Create a new account</span>
+        <IoMdArrowBack onClick={onBackButtonClick} /> <span>{getAppMessage("auth.noAccountFoundCreateOne")}</span>
       </div>
       <div className="signup-with-bstack-card-description">
-        We couldn’t find an account associated with "{email.trim()}". Please sign up to create a new one.
+        {getAppMessage("auth.noAccountFoundDescription", (value: string) => value)(email.trim())}
       </div>
       <RQButton loading={isLoading} block size="large" type="primary" onClick={handleCreateBStackAccount}>
-        Sign up
+        {getAppMessage("auth.signUp")}
       </RQButton>
     </div>
   );

@@ -3,6 +3,7 @@ import { RQButton } from "lib/design-system-v2/components";
 import React, { useState } from "react";
 import { MdClose } from "@react-icons/all-files/md/MdClose";
 import { CloseAllTabsModal } from "features/apiClient/screens/apiClient/components/modals/CloseAllTabsModal/CloseAllTabsModal";
+import { getAppMessage } from "i18n";
 
 interface Props {
   unSavedTabsCount: number;
@@ -23,7 +24,7 @@ export const CloseAllTabsButton: React.FC<Props> = ({ unSavedTabsCount, closeAll
   return (
     <>
       <Tooltip
-        title="Close all opened tabs"
+        title={getAppMessage("apiClient.closeAllOpenedTabs")}
         overlayClassName="tab-title-tooltip"
         placement="bottomLeft"
         showArrow={false}
@@ -35,7 +36,7 @@ export const CloseAllTabsButton: React.FC<Props> = ({ unSavedTabsCount, closeAll
           className="close-all-tabs-button"
           onClick={onCloseAllButtonClick}
         >
-          <span className="close-all-tabs-text">Close all</span>
+          <span className="close-all-tabs-text">{getAppMessage("apiClient.closeAll")}</span>
         </RQButton>
       </Tooltip>
       {showUnSavedModal && (

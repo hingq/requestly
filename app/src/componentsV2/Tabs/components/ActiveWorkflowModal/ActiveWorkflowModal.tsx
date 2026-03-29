@@ -2,6 +2,7 @@ import React from "react";
 import { Modal } from "antd";
 import { RQButton } from "lib/design-system-v2/components";
 import "./activeWorkflowModal.scss";
+import { getAppMessage } from "i18n";
 
 interface ActiveWorkflowModalProps {
   open: boolean;
@@ -10,15 +11,15 @@ interface ActiveWorkflowModalProps {
 }
 
 export const ActiveWorkflowModal: React.FC<ActiveWorkflowModalProps> = ({ open, onCancel, onConfirm }) => {
-  const header = <div className="active-workflow-modal-title">Collection is still running</div>;
+  const header = <div className="active-workflow-modal-title">{getAppMessage("apiClient.activeWorkflowTitle")}</div>;
 
   const footer = (
     <div className="active-workflow-modal-footer">
       <RQButton type="secondary" onClick={onCancel}>
-        Continue running
+        {getAppMessage("apiClient.continueRunning")}
       </RQButton>
       <RQButton type="danger" onClick={onConfirm}>
-        Stop and leave
+        {getAppMessage("apiClient.stopAndLeave")}
       </RQButton>
     </div>
   );
@@ -35,7 +36,7 @@ export const ActiveWorkflowModal: React.FC<ActiveWorkflowModalProps> = ({ open, 
       width={480}
       className="active-workflow-modal-root"
     >
-      <p className="active-workflow-modal-description">Leaving now will stop the run and discard remaining results.</p>
+      <p className="active-workflow-modal-description">{getAppMessage("apiClient.activeWorkflowDescription")}</p>
     </Modal>
   );
 };

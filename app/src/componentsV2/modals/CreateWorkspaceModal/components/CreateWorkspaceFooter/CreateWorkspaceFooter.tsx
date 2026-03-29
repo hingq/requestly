@@ -1,6 +1,7 @@
 import { RQButton } from "lib/design-system-v2/components";
 import "./createWorkspaceFooter.scss";
 import { Tooltip } from "antd";
+import { getAppMessage } from "i18n";
 
 interface CreateWorkspaceFooterProps {
   onCancel: () => void;
@@ -18,15 +19,15 @@ export const CreateWorkspaceFooter = ({
   return (
     <>
       <div className="create-workspace-footer">
-        <RQButton onClick={onCancel}>Cancel</RQButton>
+        <RQButton onClick={onCancel}>{getAppMessage("common.cancel")}</RQButton>
         <Tooltip
-          title={disabled ? "Please complete all required fields to continue." : null}
+          title={disabled ? getAppMessage("workspace.completeRequiredFields") : null}
           color="#000"
           placement="top"
         >
           <div>
             <RQButton type="primary" onClick={onCreateWorkspaceClick} loading={isLoading} disabled={disabled}>
-              Create workspace
+              {getAppMessage("workspace.createNewWorkspace")}
             </RQButton>
           </div>
         </Tooltip>

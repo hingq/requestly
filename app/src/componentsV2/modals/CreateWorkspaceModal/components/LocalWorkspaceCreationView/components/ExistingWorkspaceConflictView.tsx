@@ -6,6 +6,7 @@ import { trackLocalWorkspaceCreationConflictShown } from "modules/analytics/even
 import { displayFolderSelector } from "components/mode-specific/desktop/misc/FileDialogButton";
 import { useWorkspaceCreationContext } from "componentsV2/modals/CreateWorkspaceModal/context";
 import { checkIsWorkspacePathAvailable } from "services/fsManagerServiceAdapter";
+import { getAppMessage } from "i18n";
 
 interface Props {
   path: string;
@@ -46,14 +47,14 @@ export const ExistingWorkspaceConflictView: React.FC<Props> = ({
   return (
     <>
       <WorkspaceCreationErrorView
-        title="Workspace already exists in this folder"
-        description="This folder already contains Requestly workspace files. You can continue using the existing workspace or choose a different folder."
+        title={getAppMessage("workspace.conflictTitle")}
+        description={getAppMessage("workspace.conflictDescription")}
         path={path}
         actions={
           <>
-            <RQButton onClick={handleChooseAnotherFolder}>Choose another folder</RQButton>
+            <RQButton onClick={handleChooseAnotherFolder}>{getAppMessage("workspace.chooseAnotherFolder")}</RQButton>
             <RQButton type="primary" onClick={() => openWorkspace(path)} loading={isOpeningWorkspaceLoading}>
-              Use existing workspace
+              {getAppMessage("workspace.useExistingWorkspace")}
             </RQButton>
           </>
         }

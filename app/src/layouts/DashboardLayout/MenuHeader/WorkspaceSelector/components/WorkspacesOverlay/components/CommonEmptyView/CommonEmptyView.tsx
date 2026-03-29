@@ -9,6 +9,7 @@ import { SOURCE } from "modules/analytics/events/common/constants";
 import { getUserAuthDetails } from "store/slices/global/user/selectors";
 import "./commonEmptyView.scss";
 import { WorkspaceType } from "features/workspaces/types";
+import { getAppMessage } from "i18n";
 
 interface CommonEmptyViewProps {
   toggleDropdown: () => void;
@@ -36,16 +37,16 @@ export const CommonEmptyView: React.FC<CommonEmptyViewProps> = ({ toggleDropdown
   return (
     <div className="common-workspace-empty-view">
       <img src="/assets/media/common/empty-folder.svg" alt="empty folder" />
-      <div className="common-workspace-empty-view__title">You don't have any workspaces yet.</div>
+      <div className="common-workspace-empty-view__title">{getAppMessage("workspace.emptyTitle")}</div>
       <div className="common-workspace-empty-view__description">
         {appMode === GLOBAL_CONSTANTS.APP_MODES.DESKTOP
-          ? "Create a local workspace to store files on your device or a team workspace to collaborate with teammates."
-          : "Create a team workspace to collaborate with teammates."}
+          ? getAppMessage("workspace.emptyDescriptionDesktop")
+          : getAppMessage("workspace.emptyDescriptionWeb")}
       </div>
       <div className="common-workspace-empty-view__actions">
         <AuthConfirmationPopover
           placement="topRight"
-          title="You need to signup to create a team workspace"
+          title={getAppMessage("workspace.signupRequiredForTeamWorkspace")}
           source={SOURCE.WORKSPACE_DROPDOWN}
           callback={() => handleCreateWorkspace(WorkspaceType.SHARED)}
         >
@@ -57,12 +58,12 @@ export const CommonEmptyView: React.FC<CommonEmptyViewProps> = ({ toggleDropdown
               if (user.loggedIn) handleCreateWorkspace(WorkspaceType.SHARED);
             }}
           >
-            New team workspace
+            {getAppMessage("workspace.newTeamWorkspace")}
           </RQButton>
         </AuthConfirmationPopover>
         {appMode === GLOBAL_CONSTANTS.APP_MODES.DESKTOP ? (
           <RQButton size="small" type="primary" onClick={() => handleCreateWorkspace(WorkspaceType.LOCAL)}>
-            New local workspace
+            {getAppMessage("workspace.newLocalWorkspace")}
           </RQButton>
         ) : null}
       </div>

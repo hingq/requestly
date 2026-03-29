@@ -8,6 +8,7 @@ import { getAppMode } from "store/selectors";
 import { CONSTANTS as GLOBAL_CONSTANTS } from "@requestly/requestly-core";
 import { SOURCE } from "modules/analytics/events/common/constants";
 import APP_CONSTANTS from "config/constants";
+import { getAppMessage } from "i18n";
 import "./authCard.scss";
 
 interface Props {
@@ -35,12 +36,10 @@ export const AuthCard: React.FC<Props> = ({ onBackClick }) => {
     <>
       <div className="auth-card-header">
         <IoMdArrowBack onClick={onBackClick} />
-        Create your free account
+        {getAppMessage("auth.createFreeAccount")}
       </div>
 
-      <div className="auth-card-description">
-        You will be redirected to your browser to securely complete the sign-up process in a few simple steps.
-      </div>
+      <div className="auth-card-description">{getAppMessage("auth.desktopSignupRedirectDescription")}</div>
       <div className="auth-card-actions">
         <RQButton
           type="primary"
@@ -48,21 +47,21 @@ export const AuthCard: React.FC<Props> = ({ onBackClick }) => {
           size="large"
           onClick={() => handleAuthButtonClick(APP_CONSTANTS.AUTH.ACTION_LABELS.SIGN_UP)}
         >
-          Create new account
+          {getAppMessage("auth.createNewAccount")}
         </RQButton>
         <RQButton block size="large" onClick={() => handleAuthButtonClick(APP_CONSTANTS.AUTH.ACTION_LABELS.LOG_IN)}>
-          Already have an account? Sign in
+          {`${getAppMessage("auth.alreadyHaveAccount")} ${getAppMessage("auth.signIn")}`}
         </RQButton>
       </div>
 
       <div className="auth-card-footer">
-        By signing in, you agree to our{" "}
+        {getAppMessage("auth.signInAgreementPrefix")}{" "}
         <a href={LINKS.REQUESTLY_TERMS_AND_CONDITIONS} target="_blank" rel="noreferrer">
-          Terms
+          {getAppMessage("auth.terms")}
         </a>{" "}
-        and{" "}
+        和{" "}
         <a href={LINKS.REQUESTLY_PRIVACY_POLICY} target="_blank" rel="noreferrer">
-          Privacy statement
+          {getAppMessage("auth.privacyStatement")}
         </a>
       </div>
     </>

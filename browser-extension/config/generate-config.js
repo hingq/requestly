@@ -6,6 +6,10 @@ if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR);
 }
 
+function readJSON(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
 function getConfigsToOverride() {
   const configs = {};
 
@@ -36,7 +40,7 @@ function getConfigData(key, val) {
   if (fs.existsSync(configFilePath)) {
     return {
       [key]: val,
-      ...require(configFilePath),
+      ...readJSON(configFilePath),
     };
   } else {
     console.error(`ERROR: Invalid config ${key}=${val}`);
@@ -47,15 +51,15 @@ function getConfigData(key, val) {
 (function run() {
   const CONFIG_PATH = `${OUTPUT_DIR}/config.build.json`;
 
-  const existingConfigs = fs.existsSync(CONFIG_PATH)
-    ? require(`./${CONFIG_PATH}`)
-    : {};
+  const existingConfigs = fs.existsSync(CONFIG_PATH) ? readJSON(CONFIG_PATH) : {};
+
+  const configsToOverride = getConfigsToOverride();
 
   const configs = {
     ...commonConfigs,
-    ...getConfigsData(require("./configs/defaults.json")),
+    ...getConfigsData(readJSON("./configs/defaults.json")),
     ...existingConfigs,
-    ...getConfigsData(getConfigsToOverride()),
+    ...getConfigsData(configsToOverride),
   };
 
   const configsJSONContent = JSON.stringify(configs, null, 2);

@@ -25,7 +25,7 @@ const PopupHeader: React.FC<PopupHeaderProps> = ({ isExtensionEnabled, handleTog
           <Row align="middle">
             <Tooltip
               open={!isExtensionEnabled}
-              title="When OFF, sessions won't be recorded."
+              title="关闭后将不会继续录制会话。"
               overlayClassName="enable-extension-tooltip"
               color="var(--neutrals-black)"
               overlayInnerStyle={{ fontSize: "14px" }}
@@ -37,12 +37,12 @@ const PopupHeader: React.FC<PopupHeaderProps> = ({ isExtensionEnabled, handleTog
                 className="pause-switch"
               />
             </Tooltip>
-            <Typography.Text>{`SessionBear ${isExtensionEnabled ? "ON" : "OFF"}`}</Typography.Text>
+            <Typography.Text>{`SessionBear ${isExtensionEnabled ? "开启" : "关闭"}`}</Typography.Text>
           </Row>
         </Col>
         <Col>
           <Button type="primary" className="open-app-btn" onClick={onOpenAppButtonClick}>
-            Open app
+            打开应用
           </Button>
         </Col>
       </Row>

@@ -14,6 +14,7 @@ import "./emailAuthForm.scss";
 import { trackLoginWithPasswordClicked } from "modules/analytics/events/common/auth/signup";
 import Logger from "../../../../../../../../../../common/logger";
 import * as Sentry from "@sentry/react";
+import { getAppMessage } from "i18n";
 
 interface EmailAuthFormProps {
   isLoading: boolean;
@@ -36,7 +37,7 @@ export const EmailAuthForm: React.FC<EmailAuthFormProps> = ({ isLoading, onSendE
       const { result } = await emailSignIn(email, password, false, eventSource);
       if (result.user.uid) {
         const greatingName = result.user.displayName?.split(" ")?.[0];
-        toast.info(greatingName ? `${getGreeting()}, ${greatingName}` : "Welcome back!");
+        toast.info(greatingName ? `${getGreeting()}, ${greatingName}` : getAppMessage("auth.welcomeBackTitle"));
         toggleAuthModal(false);
         Logger.log("[Auth-EmailAuthForm-handleSignInWithEmailAndPassword] Successfully logged in");
       }
@@ -63,11 +64,11 @@ export const EmailAuthForm: React.FC<EmailAuthFormProps> = ({ isLoading, onSendE
           className="rq-auth-edit-entered-email-btn"
           onClick={onEditEmailClick}
         >
-          Edit
+          {getAppMessage("auth.edit")}
         </Button>
         <AuthFormInput
           placeholder=""
-          label="Your work email"
+          label={getAppMessage("auth.yourWorkEmail")}
           type="email"
           value={email}
           onValueChange={() => {}}
@@ -76,8 +77,8 @@ export const EmailAuthForm: React.FC<EmailAuthFormProps> = ({ isLoading, onSendE
       </div>
       {isDesktopSignIn ? (
         <AuthFormInput
-          placeholder="password"
-          label="Password"
+          placeholder={getAppMessage("auth.enterPassword")}
+          label={getAppMessage("auth.password")}
           value={password}
           type="password"
           onValueChange={setPassword}
@@ -94,7 +95,7 @@ export const EmailAuthForm: React.FC<EmailAuthFormProps> = ({ isLoading, onSendE
         onClick={isDesktopSignIn ? handleSignInWithEmailAndPassword : onSendEmailClick}
         size="large"
       >
-        {isDesktopSignIn ? "Sign In" : "Send sign in link"}
+        {isDesktopSignIn ? getAppMessage("auth.signIn") : getAppMessage("auth.sendSignInLink")}
       </RQButton>
     </div>
   );
