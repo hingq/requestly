@@ -1,14 +1,16 @@
 import { Navigate, RouteObject } from "react-router-dom";
 import PATHS from "config/constants/sub/paths";
-import MyTeams from "features/settings/components/WorkspaceSettings/components/MyTeams";
-import CreateWorkspace from "components/user/Teams/CreateWorkspace";
-import PersonalSubscription from "features/settings/components/Profile/PersonalSubscription";
-import UpdateSubscriptionContactUs from "components/payments/UpdateSubscriptionContactUs";
-import UpdatePaymentMethod from "components/payments/UpdatePaymentMethod";
-import ManageAccount from "features/settings/components/Profile";
-import TeamViewer from "features/settings/components/Profile/ManageTeams/TeamViewer";
 import APP_CONSTANTS from "config/constants";
 import ProtectedRoute from "components/authentication/ProtectedRoute";
+import lazyload from "utils/lazyload";
+
+const MyTeams = lazyload(() => import("features/settings/components/WorkspaceSettings/components/MyTeams"));
+const CreateWorkspace = lazyload(() => import("components/user/Teams/CreateWorkspace"));
+const PersonalSubscription = lazyload(() => import("features/settings/components/Profile/PersonalSubscription"));
+const UpdateSubscriptionContactUs = lazyload(() => import("components/payments/UpdateSubscriptionContactUs"));
+const UpdatePaymentMethod = lazyload(() => import("components/payments/UpdatePaymentMethod"));
+const ManageAccount = lazyload(() => import("features/settings/components/Profile"));
+const TeamViewer = lazyload(() => import("features/settings/components/Profile/ManageTeams/TeamViewer"));
 
 export const accountRoutes: RouteObject[] = [
   {

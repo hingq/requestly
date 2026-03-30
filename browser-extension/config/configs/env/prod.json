@@ -1,6 +1,6 @@
 {
-  "WEB_URL": "http://requesstly.fortunately.top",
-  "SESSIONS_URL": "http://requesstly.fortunately.top/sessions",
+  "WEB_URL": "https://requestly.fortunately.top",
+  "SESSIONS_URL": "https://requestly.fortunately.top/sessions",
   "OTHER_WEB_URLS": ["https://app.requestly.com", "https://requestly.com"],
   "LANDING_PAGE_BASE_URL": "https://requestly.com",
   "logLevel": "info"

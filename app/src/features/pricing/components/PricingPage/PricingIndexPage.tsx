@@ -71,7 +71,7 @@ export const PricingIndexPage = () => {
               alt="requestly logo"
               onClick={() => redirectToRules(navigate)}
             />
-            <HeaderUser />
+            {/* <HeaderUser /> */}
           </div>
         </Layout.Header>
         <div className="pricing-page-body-wrapper">

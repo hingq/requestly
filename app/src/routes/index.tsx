@@ -2,7 +2,6 @@ import { RouteObject } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import FullScreenLayout from "layouts/FullScreenLayout";
 import PATHS from "config/constants/sub/paths";
-import SeleniumImporter from "views/misc/SeleniumImporter";
 import { automationRoutes } from "views/misc/Automation/routes";
 import AppLayout from "layouts/AppLayout";
 import { ruleRoutes } from "features/rules/routes";
@@ -21,9 +20,16 @@ import MinimalLayout from "layouts/MinimalLayout";
 import { paymentRoutes } from "./paymentRoutes";
 import { networkInspectorRoutes } from "features/networkInspector";
 import RouterError from "components/misc/PageError/RouterError";
-import { BStackAuthStart } from "features/onboarding/screens/BStackAuthStart/BStackAuthStart";
-import ExtensionInstalledScreen from "views/misc/ExtensionInstalledScreen/";
-import AutomationTemplate from "views/misc/Automation/layout";
+import lazyload from "utils/lazyload";
+
+const SeleniumImporter = lazyload(() => import("views/misc/SeleniumImporter"));
+const AutomationTemplate = lazyload(() => import("views/misc/Automation/layout"));
+const BStackAuthStart = lazyload(() =>
+  import("features/onboarding/screens/BStackAuthStart/BStackAuthStart").then((m) => ({
+    default: m.BStackAuthStart,
+  }))
+);
+const ExtensionInstalledScreen = lazyload(() => import("views/misc/ExtensionInstalledScreen/"));
 
 export const routesV2: RouteObject[] = [
   /** Misc **/

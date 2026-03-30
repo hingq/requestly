@@ -7,7 +7,6 @@ import userNodeListener from "./userNodeListener";
 import { globalActions } from "store/slices/global/slice";
 import { isArray } from "lodash";
 import { useHasChanged } from "hooks/useHasChanged";
-import { userSubscriptionDocListener } from "./userSubscriptionDocListener";
 import { getActiveWorkspaceId } from "store/slices/workspaces/selectors";
 
 window.isFirstSyncComplete = false;
@@ -30,8 +29,6 @@ const DBListeners = () => {
     if (unsubscribeUserNodeRef.current) unsubscribeUserNodeRef.current(); // Unsubscribe existing user node listener before creating a new one
     if (user?.loggedIn) {
       unsubscribeUserNodeRef.current = userNodeListener(dispatch, user?.details?.profile.uid, appMode);
-      /* CAN BE MOVED TO SEPARATE USE EFFECT AND SHOULD HAVE AN UNSUBSCRIBER TOO, will be useful when actually implementing premium */
-      userSubscriptionDocListener(dispatch, user?.details?.profile.uid);
     }
   }, [dispatch, user?.details?.profile?.uid, user?.loggedIn, appMode]);
 

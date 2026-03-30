@@ -1,6 +1,9 @@
 import PATHS from "config/constants/sub/paths";
-import { UpgradeSuccess, UpgradeToAnnual } from "features/pricing";
 import { RouteObject } from "react-router-dom";
+import lazyload from "utils/lazyload";
+
+const UpgradeSuccess = lazyload(() => import("features/pricing").then((m) => ({ default: m.UpgradeSuccess })));
+const UpgradeToAnnual = lazyload(() => import("features/pricing").then((m) => ({ default: m.UpgradeToAnnual })));
 
 export const paymentRoutes: RouteObject[] = [
   {

@@ -83,7 +83,7 @@ const MenuHeader = () => {
                     />
                   </Tooltip>
                 </Col>
-                <HeaderUser />
+                {/* <HeaderUser /> */}
               </Row>
             </div>
           </Col>

@@ -1,25 +1,45 @@
 import { Navigate, RouteObject } from "react-router-dom";
 import PATHS from "config/constants/sub/paths";
-import SettingsIndexPage from "../components/SettingsIndex";
-import { GlobalSettings } from "../components/GlobalSettings";
-import { DesktopSettings } from "../components/DesktopSettings";
-import { SessionsSettings } from "../components/SessionsBookSettings";
-import MyTeams from "../components/WorkspaceSettings/components/MyTeams";
-import ConfigurationPage from "views/features/sessions/ConfigurationPage";
 import ProtectedRoute from "components/authentication/ProtectedRoute";
 import { isFeatureCompatible } from "utils/CompatibilityUtils";
 import FEATURES from "config/constants/sub/features";
-import { BillingTeamContainer } from "../components/BillingTeam";
-import { OrgMembersView } from "../components/OrgMembers/OrgMembers";
-import Profile from "../components/Profile/ManageAccount";
-import { BillingTeamDetails } from "../components/BillingTeam/components/BillingDetails";
-import { BillingList } from "../components/BillingTeam/components/BillingList";
-import { UserPlanDetails } from "../components/BillingTeam/components/UserPlanDetails";
 import { isDesktopMode } from "utils/AppUtils";
-import Secrets from "features/settings/secrets-manager";
-import SecretsLayout from "../secrets-manager/SecretsLayout";
-import ManageProviders from "../secrets-manager/ManageProviders/Index";
-import { SecretsModalsProvider } from "../secrets-manager/context/SecretsModalsContext";
+import lazyload from "utils/lazyload";
+
+const SettingsIndexPage = lazyload(() => import("../components/SettingsIndex"));
+const GlobalSettings = lazyload(() =>
+  import("../components/GlobalSettings").then((m) => ({ default: m.GlobalSettings }))
+);
+const DesktopSettings = lazyload(() =>
+  import("../components/DesktopSettings").then((m) => ({ default: m.DesktopSettings }))
+);
+const SessionsSettings = lazyload(() =>
+  import("../components/SessionsBookSettings").then((m) => ({ default: m.SessionsSettings }))
+);
+const MyTeams = lazyload(() => import("../components/WorkspaceSettings/components/MyTeams"));
+const ConfigurationPage = lazyload(() => import("views/features/sessions/ConfigurationPage"));
+const BillingTeamContainer = lazyload(() =>
+  import("../components/BillingTeam").then((m) => ({ default: m.BillingTeamContainer }))
+);
+const OrgMembersView = lazyload(() =>
+  import("../components/OrgMembers/OrgMembers").then((m) => ({ default: m.OrgMembersView }))
+);
+const Profile = lazyload(() => import("../components/Profile/ManageAccount"));
+const BillingTeamDetails = lazyload(() =>
+  import("../components/BillingTeam/components/BillingDetails").then((m) => ({ default: m.BillingTeamDetails }))
+);
+const BillingList = lazyload(() =>
+  import("../components/BillingTeam/components/BillingList").then((m) => ({ default: m.BillingList }))
+);
+const UserPlanDetails = lazyload(() =>
+  import("../components/BillingTeam/components/UserPlanDetails").then((m) => ({ default: m.UserPlanDetails }))
+);
+const Secrets = lazyload(() => import("features/settings/secrets-manager"));
+const SecretsLayout = lazyload(() => import("../secrets-manager/SecretsLayout"));
+const ManageProviders = lazyload(() => import("../secrets-manager/ManageProviders/Index"));
+const SecretsModalsProvider = lazyload(() =>
+  import("../secrets-manager/context/SecretsModalsContext").then((m) => ({ default: m.SecretsModalsProvider }))
+);
 
 const isSessionsNewSettingsPageCompatible = isFeatureCompatible(FEATURES.SESSION_ONBOARDING);
 const isSecretsManagerCompatible = isFeatureCompatible(FEATURES.SECRETS_MANAGER);
@@ -55,7 +75,7 @@ export const settingRoutes: RouteObject[] = [
                 ...(isDesktopMode()
                   ? [
                       {
-                        path: PATHS.SETTINGS.SECRETS.MANAGE_PROVIDERS.RELATIVE, // This is a nested route for managing providers
+                        path: PATHS.SETTINGS.SECRETS.MANAGE_PROVIDERS.RELATIVE,
                         element: <ManageProviders />,
                       },
                     ]

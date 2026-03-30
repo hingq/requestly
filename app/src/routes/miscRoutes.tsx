@@ -1,23 +1,47 @@
 import { Navigate, RouteObject } from "react-router-dom";
 import PATHS from "config/constants/sub/paths";
-import Updates from "views/features/Updates";
-import Goodbye from "components/misc/Goodbye";
-import ExtensionInstalled from "components/misc/ExtensionInstalled";
-import InstallExtensionCTA from "components/misc/InstallExtensionCTA";
-import Page403 from "views/misc/ServerResponses/403";
-import Page404 from "views/misc/ServerResponses/404";
-import AcceptTeamInvite from "components/user/Teams/AcceptTeamInvite";
 import ProtectedRoute from "components/authentication/ProtectedRoute";
-import AppSumoModal from "components/landing/Appsumo/Appsumo";
-import { Home } from "components/Home";
-import { PricingIndexPage } from "features/pricing/components/PricingPage";
-import { ImportFromCharlesWrapperView } from "features/rules/screens/rulesList/components/RulesList/components";
-import { ImportFromModheaderWrapperView } from "features/rules/screens/rulesList/components/RulesList/components/ImporterComponents/ModheaderImporter/ImportFromModheaderScreen";
-import SeleniumImporter from "views/misc/SeleniumImporter";
-import { ImportFromResourceOverrideWrapperView } from "features/rules/screens/rulesList/components/RulesList/components/ImporterComponents/ResourceOverrideImporter";
-import { HeaderEditorImportScreen } from "features/rules/screens/rulesList/components/RulesList/components/ImporterComponents/HeaderEditorImporter/HeaderEditorImporterScreen";
-import QuitDesktop from "components/misc/QuitDesktop";
-import { GithubStudentPack } from "features/onboarding/componentsV2/GithubStudentPack/GithubStudentPack";
+import lazyload from "utils/lazyload";
+
+const Updates = lazyload(() => import("views/features/Updates"));
+const Goodbye = lazyload(() => import("components/misc/Goodbye"));
+const ExtensionInstalled = lazyload(() => import("components/misc/ExtensionInstalled"));
+const InstallExtensionCTA = lazyload(() => import("components/misc/InstallExtensionCTA"));
+const Page403 = lazyload(() => import("views/misc/ServerResponses/403"));
+const Page404 = lazyload(() => import("views/misc/ServerResponses/404"));
+const AcceptTeamInvite = lazyload(() => import("components/user/Teams/AcceptTeamInvite"));
+const AppSumoModal = lazyload(() => import("components/landing/Appsumo/Appsumo"));
+const Home = lazyload(() => import("components/Home").then((m) => ({ default: m.Home })));
+const PricingIndexPage = lazyload(() =>
+  import("features/pricing/components/PricingPage").then((m) => ({ default: m.PricingIndexPage }))
+);
+const ImportFromCharlesWrapperView = lazyload(() =>
+  import("features/rules/screens/rulesList/components/RulesList/components").then((m) => ({
+    default: m.ImportFromCharlesWrapperView,
+  }))
+);
+const ImportFromModheaderWrapperView = lazyload(() =>
+  import(
+    "features/rules/screens/rulesList/components/RulesList/components/ImporterComponents/ModheaderImporter/ImportFromModheaderScreen"
+  ).then((m) => ({ default: m.ImportFromModheaderWrapperView }))
+);
+const ImportFromResourceOverrideWrapperView = lazyload(() =>
+  import(
+    "features/rules/screens/rulesList/components/RulesList/components/ImporterComponents/ResourceOverrideImporter"
+  ).then((m) => ({ default: m.ImportFromResourceOverrideWrapperView }))
+);
+const HeaderEditorImportScreen = lazyload(() =>
+  import(
+    "features/rules/screens/rulesList/components/RulesList/components/ImporterComponents/HeaderEditorImporter/HeaderEditorImporterScreen"
+  ).then((m) => ({ default: m.HeaderEditorImportScreen }))
+);
+const SeleniumImporter = lazyload(() => import("views/misc/SeleniumImporter"));
+const GithubStudentPack = lazyload(() =>
+  import("features/onboarding/componentsV2/GithubStudentPack/GithubStudentPack").then((m) => ({
+    default: m.GithubStudentPack,
+  }))
+);
+const QuitDesktop = lazyload(() => import("components/misc/QuitDesktop"));
 
 export const miscRoutes: RouteObject[] = [
   {

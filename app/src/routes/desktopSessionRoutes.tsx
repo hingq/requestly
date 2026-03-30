@@ -1,11 +1,27 @@
 import PATHS from "config/constants/sub/paths";
-import { DraftSessionScreen } from "features/sessionBook";
-import { SessionsListScreenContainer } from "features/sessionBook/screens/SessionsListScreen/SessionsListScreenContainer";
 import { Navigate, RouteObject } from "react-router-dom";
-import { DesktopSessionsContainer } from "views/containers/DesktopSessionsContainer";
-import { SavedSessionViewer } from "views/features/sessions/SessionViewer";
-import NetworkSessionsIndexPage from "views/features/sessions/SessionsIndexPageContainer/NetworkSessions";
-import NetworkSessionViewer from "views/features/sessions/SessionsIndexPageContainer/NetworkSessions/NetworkSessionViewer";
+import lazyload from "utils/lazyload";
+
+const DesktopSessionsContainer = lazyload(() =>
+  import("views/containers/DesktopSessionsContainer").then((m) => ({ default: m.DesktopSessionsContainer }))
+);
+const SavedSessionViewer = lazyload(() =>
+  import("views/features/sessions/SessionViewer").then((m) => ({ default: m.SavedSessionViewer }))
+);
+const NetworkSessionsIndexPage = lazyload(
+  () => import("views/features/sessions/SessionsIndexPageContainer/NetworkSessions")
+);
+const NetworkSessionViewer = lazyload(
+  () => import("views/features/sessions/SessionsIndexPageContainer/NetworkSessions/NetworkSessionViewer")
+);
+const DraftSessionScreen = lazyload(() =>
+  import("features/sessionBook").then((m) => ({ default: m.DraftSessionScreen }))
+);
+const SessionsListScreenContainer = lazyload(() =>
+  import("features/sessionBook/screens/SessionsListScreen/SessionsListScreenContainer").then((m) => ({
+    default: m.SessionsListScreenContainer,
+  }))
+);
 
 export const desktopSessionsRoutes: RouteObject[] = [
   {

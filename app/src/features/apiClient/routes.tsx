@@ -1,9 +1,19 @@
 import { RouteObject } from "react-router-dom";
 import PATHS from "config/constants/sub/paths";
-import { ApiClientEmptyView } from "./screens/apiClient/components/views/components/ApiClientEmptyView/ApiClientEmptyView";
 import ProtectedRoute from "components/authentication/ProtectedRoute";
-import { PostmanImporterView } from "./screens/PostmanImporterView/PostmanImporterView";
-import { ApiClientRouteElement } from "./components/RouteElement";
+import lazyload from "utils/lazyload";
+
+const ApiClientEmptyView = lazyload(() =>
+  import("./screens/apiClient/components/views/components/ApiClientEmptyView/ApiClientEmptyView").then((m) => ({
+    default: m.ApiClientEmptyView,
+  }))
+);
+const PostmanImporterView = lazyload(() =>
+  import("./screens/PostmanImporterView/PostmanImporterView").then((m) => ({ default: m.PostmanImporterView }))
+);
+const ApiClientRouteElement = lazyload(() =>
+  import("./components/RouteElement").then((m) => ({ default: m.ApiClientRouteElement }))
+);
 
 export const apiClientRoutes: RouteObject[] = [
   {

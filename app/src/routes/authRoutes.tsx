@@ -1,13 +1,17 @@
 import { Navigate, RouteObject } from "react-router-dom";
 import PATHS from "config/constants/sub/paths";
 import AUTH from "config/constants/sub/auth";
-import DesktopSignIn from "components/authentication/DesktopSignIn";
-import EmailAction from "components/misc/EmailAction";
-import VerifyEmail from "components/misc/VerifyEmail";
-import SignInViaEmailLink from "components/misc/SignInViaEmailLink";
-import LoginHandler from "components/authentication/LoginHandler";
-import { AuthPage } from "features/onboarding/screens/auth/components/AuthPage/AuthPage";
-import RQAuthPage from "components/authentication/AuthPage/AuthPage";
+import lazyload from "utils/lazyload";
+
+const DesktopSignIn = lazyload(() => import("components/authentication/DesktopSignIn"));
+const EmailAction = lazyload(() => import("components/misc/EmailAction"));
+const VerifyEmail = lazyload(() => import("components/misc/VerifyEmail"));
+const SignInViaEmailLink = lazyload(() => import("components/misc/SignInViaEmailLink"));
+const LoginHandler = lazyload(() => import("components/authentication/LoginHandler"));
+const AuthPage = lazyload(() =>
+  import("features/onboarding/screens/auth/components/AuthPage/AuthPage").then((m) => ({ default: m.AuthPage }))
+);
+const RQAuthPage = lazyload(() => import("components/authentication/AuthPage/AuthPage"));
 
 export const authRoutes: RouteObject[] = [
   {

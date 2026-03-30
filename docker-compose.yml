@@ -1,10 +1,7 @@
 services:
   app:
     platform: linux/amd64
-    build:
-      context: .
-      dockerfile: Dockerfile.app
-    image: requestly-app
+    image: requestly-app:latest
     ports:
       - "5173:3000"
     restart: unless-stopped

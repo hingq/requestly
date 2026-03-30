@@ -27,7 +27,7 @@ const MinimalLayout: React.FC<MinimalLayoutProps> = ({ children = null }) => {
           onClick={() => redirectToRoot(navigate)}
         />
 
-        <HeaderUser />
+        {/* <HeaderUser /> */}
       </Layout.Header>
 
       <div className="minimal-layout-main">{children ?? <Outlet />}</div>

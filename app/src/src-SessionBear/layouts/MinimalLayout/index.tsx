@@ -16,7 +16,7 @@ const MinimalLayout = () => {
           alt="requestly logo"
           onClick={() => redirectToRoot(navigate)}
         />
-        <HeaderUser />
+        {/* <HeaderUser /> */}
       </Layout.Header>
       <Outlet />
     </>

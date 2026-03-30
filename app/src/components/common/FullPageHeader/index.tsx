@@ -25,7 +25,7 @@ export const FullPageHeader: React.FC<HeaderProps> = ({ showUserHeader = false, 
             onClick={() => (doRedirectOnLogoClick ? redirectToRules(navigate) : {})}
           />
         </Col>
-        {showUserHeader && <HeaderUser />}
+        {/* {showUserHeader && <HeaderUser />} */}
       </Row>
     </Layout.Header>
   );

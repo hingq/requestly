@@ -1,12 +1,14 @@
 import { Navigate, RouteObject } from "react-router-dom";
 import PATHS from "config/constants/sub/paths";
 import { joinPaths } from "utils/PathUtils";
-import FileMockEditorCreateView from "views/features/mocksV2/FileMockEditorCreateView";
 import ProtectedRoute from "components/authentication/ProtectedRoute";
 import { MockType } from "components/features/mocksV2/types";
-import MockEditorIndex from "components/features/mocksV2/MockEditorIndex";
-import MocksFeatureContainer from "./container";
-import { MocksListScreen } from "./screens/mocksList";
+import lazyload from "utils/lazyload";
+
+const FileMockEditorCreateView = lazyload(() => import("views/features/mocksV2/FileMockEditorCreateView"));
+const MockEditorIndex = lazyload(() => import("components/features/mocksV2/MockEditorIndex"));
+const MocksFeatureContainer = lazyload(() => import("./container"));
+const MocksListScreen = lazyload(() => import("./screens/mocksList").then((m) => ({ default: m.MocksListScreen })));
 
 export const mockServerRoutes: RouteObject[] = [
   {

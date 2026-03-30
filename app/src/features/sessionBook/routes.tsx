@@ -1,9 +1,22 @@
 import { Navigate, RouteObject } from "react-router-dom";
 import PATHS from "config/constants/sub/paths";
-import NetworkSessionViewer from "views/features/sessions/SessionsIndexPageContainer/NetworkSessions/NetworkSessionViewer";
-import { SessionsListScreenContainer } from "./screens/SessionsListScreen/SessionsListScreenContainer";
-import SessionsFeatureContainer from "./container";
-import { DraftSessionScreen, SavedSessionScreen } from "features/sessionBook";
+import lazyload from "utils/lazyload";
+
+const NetworkSessionViewer = lazyload(
+  () => import("views/features/sessions/SessionsIndexPageContainer/NetworkSessions/NetworkSessionViewer")
+);
+const SessionsListScreenContainer = lazyload(() =>
+  import("./screens/SessionsListScreen/SessionsListScreenContainer").then((m) => ({
+    default: m.SessionsListScreenContainer,
+  }))
+);
+const SessionsFeatureContainer = lazyload(() => import("./container"));
+const DraftSessionScreen = lazyload(() =>
+  import("features/sessionBook").then((m) => ({ default: m.DraftSessionScreen }))
+);
+const SavedSessionScreen = lazyload(() =>
+  import("features/sessionBook").then((m) => ({ default: m.SavedSessionScreen }))
+);
 
 export const sessionRoutes: RouteObject[] = [
   {

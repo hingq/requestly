@@ -1,25 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { checkUserBackupState, getAuthData, getOrUpdateUserSyncState } from "actions/FirebaseActions";
+import { getAuthData, getOrUpdateUserSyncState } from "actions/FirebaseActions";
 import firebaseApp from "firebase.js";
 import { User, getAuth, onAuthStateChanged, signInWithCustomToken } from "firebase/auth";
 import { globalActions } from "store/slices/global/slice";
 import { submitAttrUtil } from "utils/AnalyticsUtils";
 import { getDomainFromEmail } from "utils/FormattingHelper";
 import { getAppMode, getUserAttributes, getAppOnboardingDetails } from "store/selectors";
-import { getPlanName, isPremiumUser } from "utils/PremiumUtils";
 import moment from "moment";
 import { getAndUpdateInstallationDate } from "utils/Misc";
 import Logger from "lib/logger";
-import { getUserSubscription } from "backend/user/userSubscription";
-import { preparePlan } from "./DbListenerInit/userSubscriptionDocListener";
 import APP_CONSTANTS from "config/constants";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { getUser } from "backend/user/getUser";
 import { CONSTANTS as GLOBAL_CONSTANTS } from "@requestly/requestly-core";
 import { isAppOpenedInIframe } from "utils/AppUtils";
-import { getEmailType } from "utils/mailCheckerUtils";
 import { EmailType } from "@requestly/shared/types/common";
 import { clientStorageService } from "services/clientStorageService";
 
@@ -113,18 +109,12 @@ const AuthHandler: React.FC<{}> = () => {
       localStorage.setItem("__rq_uid", user.uid);
 
       try {
-        // FIXME: getOrUpdateUserSyncState, checkUserBackupState taking too long for large workspace, can this be improved or moved to non-blocking operations?
-        const [firestorePlanDetails, isSyncEnabled, isBackupEnabled, mailType] = await Promise.all([
-          getUserSubscription(user.uid),
-          getOrUpdateUserSyncState(user.uid, appMode),
-          checkUserBackupState(user.uid),
-          getEmailType(user.email),
-        ]);
+        const isSyncEnabled = await getOrUpdateUserSyncState(user.uid, appMode);
+        const isBackupEnabled = false;
+        const mailType = null;
+        const isUserPremium = false;
 
         emailTypeRef.current = mailType;
-
-        const planDetails = preparePlan(firestorePlanDetails);
-        const isUserPremium = isPremiumUser(planDetails);
 
         window.isSyncEnabled = isSyncEnabled;
         window.keySetDoneisSyncEnabled = true;
@@ -135,10 +125,7 @@ const AuthHandler: React.FC<{}> = () => {
             details: {
               profile: authData,
               isLoggedIn: true,
-              planDetails: {
-                ...planDetails,
-                planName: getPlanName(planDetails),
-              },
+              planDetails: null,
               isBackupEnabled,
               isSyncEnabled,
               isPremium: isUserPremium,
@@ -159,22 +146,6 @@ const AuthHandler: React.FC<{}> = () => {
         submitAttrUtil(TRACKING.ATTR.IS_PREMIUM, isUserPremium);
         const userName = user.displayName !== "User" ? user.displayName : onboardingDetails.fullName;
         submitAttrUtil(TRACKING.ATTR.DISPLAY_NAME, userName);
-
-        if (planDetails) {
-          submitAttrUtil(TRACKING.ATTR.PAYMENT_MODE, planDetails.type ?? "Missing Value");
-          submitAttrUtil(TRACKING.ATTR.PLAN_ID, planDetails.planId ?? "Missing Value");
-          submitAttrUtil(TRACKING.ATTR.IS_TRIAL, planDetails.status === "trialing");
-          submitAttrUtil(TRACKING.ATTR.SUBSCRIPTION_STATUS, planDetails.status);
-          submitAttrUtil(
-            TRACKING.ATTR.RQ_SUBSCRIPTION_TYPE,
-            firestorePlanDetails?.rqSubscriptionType ?? planDetails.type
-          );
-
-          if (planDetails.subscription) {
-            submitAttrUtil(TRACKING.ATTR.PLAN_START_DATE, planDetails.subscription.startDate ?? "Missing Value");
-            submitAttrUtil(TRACKING.ATTR.PLAN_END_DATE, planDetails.subscription.endDate ?? "Missing Value");
-          }
-        }
 
         Logger.timeEnd("AuthHandler-blockingOperations");
         return true;
@@ -264,12 +235,10 @@ const AuthHandler: React.FC<{}> = () => {
         window.keySetDoneisSyncEnabled = true;
         localStorage.removeItem("__rq_uid");
         clientStorageService.removeStorageObject(GLOBAL_CONSTANTS.STORAGE_KEYS.REFRESH_TOKEN);
-        // set amplitude anon id to local storage:
-        const planDetails = preparePlan();
         dispatch(
           globalActions.updateUserInfo({
             loggedIn: false,
-            details: { isPremium: true, ...(planDetails ? { planDetails } : {}) },
+            details: { isPremium: true },
           })
         );
         dispatch(

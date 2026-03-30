@@ -108,7 +108,7 @@ export const MenuHeader = () => {
             icon={<Settings />}
             onClick={() => redirectToSettings(navigate, window.location.pathname, "header")}
           />
-          <HeaderUser />
+          {/* <HeaderUser /> */}
         </div>
       </div>
     </Header>
