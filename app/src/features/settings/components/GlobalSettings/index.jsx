@@ -1,13 +1,11 @@
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { getAppMode } from "store/selectors";
-import { getUserAuthDetails } from "store/slices/global/user/selectors";
 import InstallExtensionCTA from "../../../../components/misc/InstallExtensionCTA";
 import { isExtensionInstalled, isSafariExtension } from "actions/ExtensionActions";
 import APP_CONSTANTS from "../../../../config/constants";
 import { CONSTANTS as GLOBAL_CONSTANTS } from "@requestly/requestly-core";
 import { isFeatureCompatible } from "../../../../utils/CompatibilityUtils";
-import DataCollection from "./components/DataCollection";
 import RulesSyncing from "./components/RulesSyncing";
 import { ImplicitRuleTesting } from "./components/ImplicitRuleTesting";
 import "./index.scss";
@@ -17,7 +15,6 @@ import { PopupConfig } from "./components/PopupConfig/PopupConfig";
 import { AIConsentSetting } from "./components/AIConsentSetting/AIConsentSetting";
 
 export const GlobalSettings = () => {
-  const user = useSelector(getUserAuthDetails);
   const appMode = useSelector(getAppMode);
 
   const isImplicitTestThisRuleCompatible = useMemo(
@@ -43,7 +40,6 @@ export const GlobalSettings = () => {
         </p>
         <div>
           <RulesSyncing />
-          {user?.loggedIn ? <DataCollection /> : null}
         </div>
         <AIConsentSetting />
         {appMode === GLOBAL_CONSTANTS.APP_MODES.EXTENSION && isImplicitTestThisRuleCompatible ? (

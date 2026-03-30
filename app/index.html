@@ -17,22 +17,6 @@
         window.location.href = "https://app.requestly.io";
       }
 
-      const deviceId = localStorage.getItem("__amplitude_deviceId");
-      const uid = localStorage.getItem("__rq_uid");
-
-      const eventObject = { device_id: deviceId, event_type: "extension_uninstalled" };
-      const attributes = { extension_uninstall_date: new Date().toISOString().split("T")[0] };
-
-      if (uid) eventObject["user_id"] = uid;
-
-      const isHeadless =
-        window.navigator.webdriver === true || /HeadlessChrome/.test(window.navigator.userAgent) === true;
-
-      if (!isHeadless && "https://app.requestly.io/goodbye/" === window.location.href && deviceId) {
-        const a = { api_key: "6d37003f0cdb1921422bc474c634c135", events: [eventObject], user_properties: attributes };
-        const b = new Blob([JSON.stringify(a)]);
-        navigator.sendBeacon("https://api2.amplitude.com/2/httpapi", b);
-      }
     </script>
     <script>
       // Set favicon
@@ -84,18 +68,6 @@
     <script>
       window.global = window;
     </script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7FZEBFLWK0"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-7FZEBFLWK0");
-    </script>
-
     <style type="text/css">
       body {
         height: 100%;
