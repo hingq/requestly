@@ -9,6 +9,7 @@ jobs:
   build-and-deploy:
     name: Build Image & Deploy to Server
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Checkout repository
