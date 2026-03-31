@@ -33,6 +33,8 @@ jobs:
 
       - name: Save image as tar
         run: docker save -o requestly-app-linux-amd64.tar requestly-app:latest
+      - name: Fix tar file permissions
+        run: chmod 644 requestly-app-linux-amd64.tar
 
       - name: Upload tar & docker-compose.yml to server
         uses: appleboy/scp-action@v0.1.7
