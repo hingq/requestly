@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
     branches:
       - main
-
+permissions:
+  contents: read
 jobs:
   build-and-deploy:
     name: Build Image & Deploy to Server
