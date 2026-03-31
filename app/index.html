@@ -2,23 +2,6 @@
 <html lang="zh-CN" class="perfect-scrollbar-off nav-open" dir="ltr">
   <head>
     <script>
-      if (
-        window.location.hostname !== "app.requestly.io" &&
-        window.location.hostname !== "app.requestly.com" &&
-        window.location.hostname !== "beta.requestly.io" &&
-        window.location.hostname !== "app.beta.requestly.com" &&
-        window.location.hostname !== "app.sessionbear.com" &&
-        window.location.hostname !== "beta.sessionbear.com" &&
-        window.location.hostname !== "localhost" &&
-        window.location.hostname !== "requestly.fortunately.top" &&
-        !window.location.hostname.startsWith("requestly-dev") &&
-        isNaN(parseInt(window.location.hostname.replace(/\./g, ""))) // dumb check for an IP (or any number really)
-      ) {
-        window.location.href = "https://app.requestly.io";
-      }
-
-    </script>
-    <script>
       // Set favicon
       const hostname = window.location.hostname;
       let faviconPath = "/favicon.png";
