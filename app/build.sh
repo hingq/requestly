@@ -7,4 +7,5 @@ fi
 
 npm run build
 
+mkdir -p ../public
 cp -r build/* ../public/
