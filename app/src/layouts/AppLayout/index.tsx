@@ -44,7 +44,7 @@ const App: React.FC = () => {
     moment.locale("zh-cn");
   }, []);
 
-  usePreLoadRemover();
+  const { isPreLoaderRemoved } = usePreLoadRemover();
   useClientStorageService();
   useGeoLocation();
   useIsExtensionEnabled();
@@ -78,7 +78,7 @@ const App: React.FC = () => {
       <ExtensionContextInvalidationNotice />
       <AutomationNotAllowedNotice />
       <AppModeInitializer />
-      <AuthHandler />
+      {isPreLoaderRemoved ? <AuthHandler /> : null}
       <AppUpdateNotifier />
 
       <GrowthBookProvider growthbook={growthbook}>
