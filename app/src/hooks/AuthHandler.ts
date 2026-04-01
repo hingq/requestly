@@ -18,6 +18,7 @@ import { CONSTANTS as GLOBAL_CONSTANTS } from "@requestly/requestly-core";
 import { isAppOpenedInIframe } from "utils/AppUtils";
 import { EmailType } from "@requestly/shared/types/common";
 import { clientStorageService } from "services/clientStorageService";
+import { ENABLE_LEGACY_BOOT_REQUESTS } from "config/featureFlags";
 
 const TRACKING = APP_CONSTANTS.GA_EVENTS;
 let hasAuthHandlerBeenSet = false;
@@ -43,6 +44,9 @@ const AuthHandler: React.FC<{}> = () => {
 
   const nonBlockingOperations = useCallback(
     async (user: User) => {
+      if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+        return;
+      }
       Logger.time("AuthHandler-nonBlockingOperations");
       Logger.timeLog("AuthHandler-nonBlockingOperations", "START");
 
@@ -102,6 +106,34 @@ const AuthHandler: React.FC<{}> = () => {
 
   const blockingOperations = useCallback(
     async (user: User): Promise<boolean> => {
+      if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+        const authData = getAuthData(user);
+        window.uid = user.uid;
+        localStorage.setItem("__rq_uid", user.uid);
+
+        dispatch(
+          globalActions.updateUserInfo({
+            loggedIn: true,
+            details: {
+              profile: authData,
+              isLoggedIn: true,
+              planDetails: null,
+              isBackupEnabled: false,
+              isSyncEnabled: false,
+              isPremium: false,
+              emailType: null,
+            },
+          })
+        );
+        dispatch(
+          globalActions.updateInitializations({
+            initType: "auth",
+            initValue: true,
+          })
+        );
+        return true;
+      }
+
       Logger.time("AuthHandler-blockingOperations");
       Logger.timeLog("AuthHandler-blockingOperations", "START");
       const authData = getAuthData(user);
@@ -174,6 +206,10 @@ const AuthHandler: React.FC<{}> = () => {
   );
 
   useEffect(() => {
+    if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+      return;
+    }
+
     if (queryPrarams.get("refreshToken") && isAppOpenedInIframe()) {
       const refreshToken = queryPrarams.get("refreshToken");
       const getCustomToken = httpsCallable(getFunctions(), "auth-generateCustomToken");

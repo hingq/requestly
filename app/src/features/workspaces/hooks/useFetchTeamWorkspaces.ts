@@ -12,6 +12,7 @@ import { getAppMode } from "store/selectors";
 import { getUserAuthDetails } from "store/slices/global/user/selectors";
 import { Workspace, WorkspaceType } from "features/workspaces/types";
 import { getActiveWorkspaceId } from "features/workspaces/utils";
+import { ENABLE_LEGACY_BOOT_REQUESTS } from "config/featureFlags";
 
 const db = getFirestore(firebaseApp);
 
@@ -38,6 +39,13 @@ export const useFetchTeamWorkspaces = () => {
 
   // Listens to teams available to the user
   useEffect(() => {
+    if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+      unsubscribeAvailableTeams.current?.();
+      unsubscribeAvailableTeams.current = null;
+      setSharedWorkspaces([]);
+      return;
+    }
+
     // This effect is triggered also on activeWorkspace changes, so donot subscribe again if listener is already active
     if (unsubscribeAvailableTeams.current) {
       return;

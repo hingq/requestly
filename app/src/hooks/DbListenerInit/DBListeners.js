@@ -8,6 +8,7 @@ import { globalActions } from "store/slices/global/slice";
 import { isArray } from "lodash";
 import { useHasChanged } from "hooks/useHasChanged";
 import { getActiveWorkspaceId } from "store/slices/workspaces/selectors";
+import { ENABLE_LEGACY_BOOT_REQUESTS } from "config/featureFlags";
 
 window.isFirstSyncComplete = false;
 
@@ -26,6 +27,7 @@ const DBListeners = () => {
 
   // Listens to /users/{id} changes
   useEffect(() => {
+    if (!ENABLE_LEGACY_BOOT_REQUESTS) return;
     if (unsubscribeUserNodeRef.current) unsubscribeUserNodeRef.current(); // Unsubscribe existing user node listener before creating a new one
     if (user?.loggedIn) {
       unsubscribeUserNodeRef.current = userNodeListener(dispatch, user?.details?.profile.uid, appMode);
@@ -34,6 +36,12 @@ const DBListeners = () => {
 
   // Listens to /sync/{id}/metadata or /teamSync/{id}/metadata changes
   useEffect(() => {
+    if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+      window.isFirstSyncComplete = true;
+      dispatch(globalActions.updateIsRulesListLoading(false));
+      return;
+    }
+
     if (!hasAuthInitialized) return;
     if (hasAuthStateChanged || !window.isFirstSyncComplete) {
       dispatch(globalActions.updateIsRulesListLoading(true));
