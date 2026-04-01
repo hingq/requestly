@@ -4,7 +4,6 @@ import { isEmpty } from "lodash";
 import { submitAppDetailAttributes } from "utils/AnalyticsUtils.js";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/lib/locale/zh_CN";
-import useGeoLocation from "hooks/useGeoLocation";
 import UpdateDialog from "components/mode-specific/desktop/UpdateDialog";
 import ThirdPartyIntegrationsHandler from "hooks/ThirdPartyIntegrationsHandler";
 import { CommandBar } from "components/misc/CommandBar";
@@ -46,7 +45,6 @@ const App: React.FC = () => {
 
   const { isPreLoaderRemoved } = usePreLoadRemover();
   useClientStorageService();
-  useGeoLocation();
   useIsExtensionEnabled();
   useBillingTeamsListener();
   useAppLanguageObserver();
