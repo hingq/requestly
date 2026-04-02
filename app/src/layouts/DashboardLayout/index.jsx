@@ -34,6 +34,7 @@ import { Conditional } from "components/common/Conditional";
 import { MenuHeader } from "./MenuHeader/MenuHeader";
 import { useInitPopupConfig } from "hooks/useInitPopupConfig";
 import { useWorkspaceFetcher } from "features/workspaces/hooks/useWorkspaceFetcher";
+import { ENABLE_LEGACY_BOOT_REQUESTS } from "config/featureFlags";
 
 const DashboardLayout = () => {
   const dispatch = useDispatch();
@@ -83,6 +84,10 @@ const DashboardLayout = () => {
   }, []);
 
   useEffect(() => {
+    if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+      return;
+    }
+
     if (user.loggedIn && !user?.details?.organization) {
       try {
         getEnterpriseAdminDetails().then((response) => {

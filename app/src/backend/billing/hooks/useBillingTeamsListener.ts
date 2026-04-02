@@ -12,6 +12,7 @@ import { getDomainFromEmail } from "utils/FormattingHelper";
 import { isCompanyEmail } from "utils/mailCheckerUtils";
 import { submitAttrUtil } from "utils/AnalyticsUtils";
 import APP_CONSTANTS from "config/constants";
+import { ENABLE_LEGACY_BOOT_REQUESTS } from "config/featureFlags";
 
 const TRACKING = APP_CONSTANTS.GA_EVENTS;
 
@@ -107,6 +108,12 @@ export const useBillingTeamsListener = () => {
   };
 
   useEffect(() => {
+    if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+      unsubscribeBillingTeamsListener?.();
+      dispatch(billingActions.resetState());
+      return;
+    }
+
     if (!user.loggedIn) {
       unsubscribeBillingTeamsListener?.();
       dispatch(billingActions.resetState());
@@ -116,6 +123,11 @@ export const useBillingTeamsListener = () => {
   }, [dispatch, user.loggedIn]);
 
   useEffect(() => {
+    if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+      unsubscribeBillingTeamsListener?.();
+      return;
+    }
+
     unsubscribeBillingTeamsListener?.();
     attachBillingTeamsListener();
   }, [attachBillingTeamsListener]);

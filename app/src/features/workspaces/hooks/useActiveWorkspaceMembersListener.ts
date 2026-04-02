@@ -4,6 +4,7 @@ import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getActiveWorkspaceIds } from "store/slices/workspaces/selectors";
 import { workspaceActions } from "store/slices/workspaces/slice";
+import { ENABLE_LEGACY_BOOT_REQUESTS } from "config/featureFlags";
 
 export const useActiveWorkspacesMembersListener = () => {
   const activeWorkspaceIds = useSelector(getActiveWorkspaceIds);
@@ -36,6 +37,11 @@ export const useActiveWorkspacesMembersListener = () => {
   );
 
   useEffect(() => {
+    if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+      dispatch(workspaceActions.setActiveWorkspacesMembers({}));
+      return;
+    }
+
     dispatch(workspaceActions.setActiveWorkspacesMembers({}));
     activeWorkspaceIds.forEach((workspaceId) => {
       getWorkspaceMembers(workspaceId);

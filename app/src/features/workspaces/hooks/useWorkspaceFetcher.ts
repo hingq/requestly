@@ -10,6 +10,7 @@ import { WorkspaceType } from "features/workspaces/types";
 import { getAppMode } from "store/selectors";
 import { clearCurrentlyActiveWorkspace } from "actions/TeamWorkspaceActions";
 import { captureException } from "@sentry/react";
+import { ENABLE_LEGACY_BOOT_REQUESTS } from "config/featureFlags";
 
 export const useWorkspaceFetcher = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,11 @@ export const useWorkspaceFetcher = () => {
   useActiveWorkspacesMembersListener();
 
   useEffect(() => {
+    if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+      dispatch(workspaceActions.setAllWorkspaces([]));
+      return;
+    }
+
     (async () => {
       try {
         const allLocalWorkspaces = await fetchLocalWorkspaces();
@@ -33,6 +39,10 @@ export const useWorkspaceFetcher = () => {
   }, [dispatch, fetchLocalWorkspaces, sharedWorkspaces]);
 
   useEffect(() => {
+    if (!ENABLE_LEGACY_BOOT_REQUESTS) {
+      return;
+    }
+
     if (!user.loggedIn) {
       if (!activeWorkspace || activeWorkspace?.workspaceType === WorkspaceType.SHARED) {
         clearCurrentlyActiveWorkspace(dispatch, appMode);
